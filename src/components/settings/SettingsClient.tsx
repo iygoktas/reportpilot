@@ -155,7 +155,7 @@ export default function SettingsClient({
       {/* Integrations */}
       <div className="bg-white border border-stone-200 rounded-xl shadow-sm p-6">
         <h2 className="text-xl font-semibold text-stone-800 mb-4 tracking-tight">Integrations</h2>
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-3">
             {/* Google icon */}
             <div className="w-10 h-10 rounded-lg border border-stone-200 flex items-center justify-center bg-white">
@@ -192,7 +192,7 @@ export default function SettingsClient({
               size="sm"
               onClick={handleDisconnect}
               disabled={disconnecting}
-              className="text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300 hover:text-red-700"
+              className="w-full md:w-auto text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300 hover:text-red-700"
             >
               {disconnecting ? (
                 <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
@@ -204,7 +204,7 @@ export default function SettingsClient({
           ) : (
             <a
               href="/api/integrations/google/connect"
-              className="inline-flex items-center gap-1.5 text-sm font-medium bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-lg transition-colors"
+              className="inline-flex justify-center items-center gap-1.5 text-sm font-medium bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-lg transition-colors w-full md:w-auto"
             >
               <Link className="w-4 h-4" />
               Connect

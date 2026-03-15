@@ -91,45 +91,51 @@ export default async function DashboardPage() {
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {/* Total Clients */}
-        <div className="bg-white border border-stone-200 rounded-xl p-5 flex items-center gap-4">
+        <div className="bg-white border border-stone-200 rounded-xl p-5 flex items-center gap-3 overflow-hidden">
           <div className="w-11 h-11 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
             <Users className="w-5 h-5 text-orange-600" />
           </div>
-          <div>
-            <p className="text-4xl font-semibold text-stone-800 tracking-tight">{clientCount}</p>
-            <p className="text-base text-stone-500 mt-0.5">Total Clients</p>
+          <div className="min-w-0">
+            <p className="text-2xl md:text-4xl font-semibold text-stone-800 tracking-tight">{clientCount}</p>
+            <p className="text-xs md:text-base text-stone-500 mt-0.5 truncate">Total Clients</p>
           </div>
         </div>
 
         {/* Total Reports */}
-        <div className="bg-white border border-stone-200 rounded-xl p-5 flex items-center gap-4">
+        <div className="bg-white border border-stone-200 rounded-xl p-5 flex items-center gap-3 overflow-hidden">
           <div className="w-11 h-11 rounded-full bg-teal-50 flex items-center justify-center shrink-0">
             <FileText className="w-5 h-5 text-teal-600" />
           </div>
-          <div>
-            <p className="text-4xl font-semibold text-stone-800 tracking-tight">{totalReports}</p>
-            <p className="text-base text-stone-500 mt-0.5">Reports Generated</p>
+          <div className="min-w-0">
+            <p className="text-2xl md:text-4xl font-semibold text-stone-800 tracking-tight">{totalReports}</p>
+            <p className="text-xs md:text-base text-stone-500 mt-0.5">
+              <span className="md:hidden">Reports</span>
+              <span className="hidden md:inline">Reports Generated</span>
+            </p>
           </div>
         </div>
 
         {/* GA4 Connected */}
-        <div className="bg-white border border-stone-200 rounded-xl p-5 flex items-center gap-4">
+        <div className="bg-white border border-stone-200 rounded-xl p-5 flex items-center gap-3 overflow-hidden">
           <div className="w-11 h-11 rounded-full bg-purple-50 flex items-center justify-center shrink-0">
             <BarChart3 className="w-5 h-5 text-purple-500" />
           </div>
-          <div>
-            <p className="text-4xl font-semibold text-stone-800 tracking-tight">{ga4ConnectedCount}</p>
-            <p className="text-base text-stone-500 mt-0.5">GA4 Connected</p>
+          <div className="min-w-0">
+            <p className="text-2xl md:text-4xl font-semibold text-stone-800 tracking-tight">{ga4ConnectedCount}</p>
+            <p className="text-xs md:text-base text-stone-500 mt-0.5">
+              <span className="md:hidden">GA4</span>
+              <span className="hidden md:inline">GA4 Connected</span>
+            </p>
           </div>
         </div>
 
         {/* Current Plan */}
-        <div className="bg-white border border-stone-200 rounded-xl p-5 flex items-center gap-4">
+        <div className="bg-white border border-stone-200 rounded-xl p-5 flex items-center gap-3 overflow-hidden">
           <div className={`w-11 h-11 rounded-full flex items-center justify-center shrink-0 ${plan === 'pro' ? 'bg-orange-100' : 'bg-stone-100'}`}>
             <Zap className={`w-5 h-5 ${plan === 'pro' ? 'text-orange-600' : 'text-stone-400'}`} />
           </div>
-          <div>
-            <p className="text-4xl font-semibold text-stone-800 tracking-tight">{plan === 'pro' ? 'Pro' : 'Free'}</p>
+          <div className="min-w-0">
+            <p className="text-2xl md:text-4xl font-semibold text-stone-800 tracking-tight">{plan === 'pro' ? 'Pro' : 'Free'}</p>
             <p className="text-sm text-stone-500 mt-0.5">
               {plan === 'pro' ? (
                 'Current plan'

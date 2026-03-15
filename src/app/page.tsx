@@ -68,9 +68,10 @@ export default async function LandingPage() {
           <div className="mt-10 flex justify-center">
             <Link
               href={ctaHref}
-              className="bg-orange-600 text-white hover:bg-orange-700 px-8 py-4 rounded-xl text-lg font-semibold transition-all duration-200 shadow-sm"
+              className="bg-orange-600 text-white hover:bg-orange-700 px-6 py-3 md:px-8 md:py-4 rounded-xl text-base md:text-lg font-semibold transition-all duration-200 shadow-sm"
             >
-              Generate Your First Report — Free
+              <span className="md:hidden">Start Free Report</span>
+              <span className="hidden md:inline">Generate Your First Report — Free</span>
             </Link>
           </div>
 
@@ -446,7 +447,7 @@ export default async function LandingPage() {
           <p className="text-sm text-stone-400">
             © 2026 ReportPilot · Built by a freelancer, for freelancers
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 md:justify-end">
             <a href="#" className="text-sm text-stone-400 hover:text-stone-600 transition-colors">Privacy</a>
             <a href="#" className="text-sm text-stone-400 hover:text-stone-600 transition-colors">Terms</a>
             <a href="#" className="text-sm text-stone-400 hover:text-stone-600 transition-colors">Twitter/X</a>

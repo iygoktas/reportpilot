@@ -74,61 +74,96 @@ export default async function ReportsPage() {
           </Link>
         </div>
       ) : (
-        <div className="bg-white border border-stone-200 rounded-xl shadow-sm overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-stone-200 bg-stone-50">
-                <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
-                  Client
-                </th>
-                <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
-                  Period
-                </th>
-                <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
-                  Created
-                </th>
-                <th className="px-5 py-3" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100">
-              {reports!.map((report) => (
-                <tr key={report.id} className="hover:bg-stone-50 transition-colors">
-                  <td className="px-5 py-4 font-medium text-stone-800">
+        <>
+          {/* ── Mobile card list (hidden on md+) ─────────────────────────── */}
+          <div className="md:hidden space-y-3">
+            {reports!.map((report) => (
+              <Link
+                key={report.id}
+                href={`/reports/${report.id}`}
+                className="block bg-white border border-stone-200 rounded-xl p-4 shadow-sm hover:shadow-md hover:border-orange-100 transition-all duration-200"
+              >
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <span className="font-semibold text-stone-900 truncate">
                     {clientMap[report.client_id] ?? '—'}
-                  </td>
-                  <td className="px-5 py-4 text-stone-600">
-                    {formatPeriod(report.period_start, report.period_end)}
-                  </td>
-                  <td className="px-5 py-4">
-                    <span
-                      className={`inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full ${
-                        report.status === 'final'
-                          ? 'bg-teal-100 text-teal-700'
-                          : 'bg-stone-100 text-stone-500'
-                      }`}
-                    >
-                      {report.status === 'final' ? 'Final' : 'Draft'}
-                    </span>
-                  </td>
-                  <td className="px-5 py-4 text-stone-500">
-                    {formatDate(report.created_at)}
-                  </td>
-                  <td className="px-5 py-4 text-right">
-                    <Link
-                      href={`/reports/${report.id}`}
-                      className="text-orange-600 hover:text-orange-700 font-medium transition-colors"
-                    >
-                      View →
-                    </Link>
-                  </td>
+                  </span>
+                  <span
+                    className={`shrink-0 text-xs font-medium px-2.5 py-1 rounded-full ${
+                      report.status === 'final'
+                        ? 'bg-teal-100 text-teal-700'
+                        : 'bg-stone-100 text-stone-500'
+                    }`}
+                  >
+                    {report.status === 'final' ? 'Final' : 'Draft'}
+                  </span>
+                </div>
+                <p className="text-sm text-stone-500">
+                  {formatPeriod(report.period_start, report.period_end)}
+                </p>
+                <p className="text-sm text-stone-400 mt-0.5">
+                  Created {formatDate(report.created_at)}
+                </p>
+              </Link>
+            ))}
+          </div>
+
+          {/* ── Desktop table (hidden below md) ──────────────────────────── */}
+          <div className="hidden md:block bg-white border border-stone-200 rounded-xl shadow-sm overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-stone-200 bg-stone-50">
+                  <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
+                    Client
+                  </th>
+                  <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
+                    Period
+                  </th>
+                  <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
+                    Created
+                  </th>
+                  <th className="px-5 py-3" />
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-stone-100">
+                {reports!.map((report) => (
+                  <tr key={report.id} className="hover:bg-stone-50 transition-colors">
+                    <td className="px-5 py-4 font-medium text-stone-800">
+                      {clientMap[report.client_id] ?? '—'}
+                    </td>
+                    <td className="px-5 py-4 text-stone-600">
+                      {formatPeriod(report.period_start, report.period_end)}
+                    </td>
+                    <td className="px-5 py-4">
+                      <span
+                        className={`inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full ${
+                          report.status === 'final'
+                            ? 'bg-teal-100 text-teal-700'
+                            : 'bg-stone-100 text-stone-500'
+                        }`}
+                      >
+                        {report.status === 'final' ? 'Final' : 'Draft'}
+                      </span>
+                    </td>
+                    <td className="px-5 py-4 text-stone-500">
+                      {formatDate(report.created_at)}
+                    </td>
+                    <td className="px-5 py-4 text-right">
+                      <Link
+                        href={`/reports/${report.id}`}
+                        className="text-orange-600 hover:text-orange-700 font-medium transition-colors"
+                      >
+                        View →
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );
