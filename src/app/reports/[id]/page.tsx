@@ -2,7 +2,8 @@ import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
-import EditNarrativeButton from '@/components/reports/EditNarrativeButton';
+import ReportNarrativeSection from '@/components/reports/ReportNarrativeSection';
+import MetricsChart from '@/components/reports/MetricsChart';
 import type { GA4Data } from '@/types/analytics';
 import type { Json } from '@/types/database';
 
@@ -13,6 +14,14 @@ import type { Json } from '@/types/database';
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-US', {
     month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+function formatDateShort(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    month: 'short',
     day: 'numeric',
     year: 'numeric',
   });
@@ -29,7 +38,6 @@ function pctChange(current: number, previous: number): number {
   return Math.round(((current - previous) / previous) * 100);
 }
 
-/** Safely cast Supabase Json blob to GA4Data. */
 function toGA4Data(snapshot: Json): GA4Data | null {
   if (!snapshot || typeof snapshot !== 'object' || Array.isArray(snapshot)) return null;
   const s = snapshot as Record<string, unknown>;
@@ -45,7 +53,7 @@ interface MetricCardProps {
   label: string;
   value: string;
   change: number;
-  invertColors?: boolean; // for bounce rate: lower = better
+  invertColors?: boolean;
 }
 
 function MetricCard({ label, value, change, invertColors = false }: MetricCardProps) {
@@ -65,7 +73,6 @@ function MetricCard({ label, value, change, invertColors = false }: MetricCardPr
     : 'text-slate-500';
 
   const arrow = change > 0 ? '↑' : change < 0 ? '↓' : '→';
-  const absChange = Math.abs(change);
 
   return (
     <div className={`border rounded-lg p-4 ${cardClass}`}>
@@ -73,68 +80,11 @@ function MetricCard({ label, value, change, invertColors = false }: MetricCardPr
       <p className="text-2xl font-bold text-slate-800">{value}</p>
       {change !== 0 ? (
         <p className={`text-sm font-medium mt-1 ${changeClass}`}>
-          {arrow} {absChange}%
+          {arrow} {Math.abs(change)}%
         </p>
       ) : (
         <p className="text-sm font-medium mt-1 text-slate-400">→ no change</p>
       )}
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Narrative renderer — parses ## headings and - bullets, no external libs
-// ---------------------------------------------------------------------------
-
-function NarrativeSection({ text }: { text: string }) {
-  // Split into sections by ## headings
-  const rawSections = text.split(/\n(?=## )/);
-
-  return (
-    <div className="space-y-6">
-      {rawSections.map((section, idx) => {
-        const lines = section.trim().split('\n');
-        const firstLine = lines[0];
-        const isHeading = firstLine.startsWith('## ');
-        const heading = isHeading ? firstLine.replace('## ', '') : null;
-        const bodyLines = isHeading ? lines.slice(1) : lines;
-
-        const bullets: string[] = [];
-        const paragraphLines: string[] = [];
-
-        for (const line of bodyLines) {
-          const trimmed = line.trim();
-          if (!trimmed) continue;
-          if (trimmed.startsWith('- ')) {
-            bullets.push(trimmed.slice(2));
-          } else {
-            paragraphLines.push(trimmed);
-          }
-        }
-
-        return (
-          <div key={idx}>
-            {heading && (
-              <h3 className="text-base font-semibold text-slate-800 mb-2">{heading}</h3>
-            )}
-            {paragraphLines.length > 0 && (
-              <p className="text-base text-slate-700 leading-relaxed">
-                {paragraphLines.join(' ')}
-              </p>
-            )}
-            {bullets.length > 0 && (
-              <ul className="space-y-1.5 mt-2">
-                {bullets.map((bullet, i) => (
-                  <li key={i} className="flex items-start gap-2 text-base text-slate-700">
-                    <span className="text-blue-400 mt-1 shrink-0">•</span>
-                    <span>{bullet}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        );
-      })}
     </div>
   );
 }
@@ -159,7 +109,6 @@ export default async function ReportViewPage({
 
   if (!user) redirect('/login');
 
-  // Fetch report via admin client (bypasses RLS on reports → clients join)
   const { data: report, error: reportError } = await adminSupabase
     .from('reports')
     .select('*')
@@ -168,7 +117,6 @@ export default async function ReportViewPage({
 
   if (reportError || !report) notFound();
 
-  // Verify the client belongs to this user
   const { data: client, error: clientError } = await adminSupabase
     .from('clients')
     .select('*')
@@ -182,6 +130,10 @@ export default async function ReportViewPage({
   const previous = toGA4Data(report.previous_data_snapshot ?? null);
 
   if (!current) notFound();
+
+  const currentLabel = `${formatDateShort(report.period_start)} – ${formatDateShort(report.period_end)}`;
+  const prevStart = previous ? report.period_start : null; // approximate — good enough for label
+  const previousLabel = prevStart ? 'Previous period' : 'Previous period';
 
   return (
     <div className="max-w-3xl">
@@ -214,7 +166,7 @@ export default async function ReportViewPage({
         </span>
       </div>
 
-      {/* Metric cards */}
+      {/* Metric cards — 2 cols on mobile, 4 cols on desktop */}
       <div className="grid grid-cols-2 gap-4 mb-6 lg:grid-cols-4">
         <MetricCard
           label="Sessions"
@@ -239,14 +191,20 @@ export default async function ReportViewPage({
         />
       </div>
 
-      {/* AI Narrative */}
+      {/* Trend chart */}
+      <MetricsChart
+        current={current}
+        previous={previous}
+        currentLabel={currentLabel}
+        previousLabel={previousLabel}
+      />
+
+      {/* AI Narrative — inline editable */}
       {report.ai_narrative && (
-        <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6 mb-4">
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-5">
-            AI Analysis
-          </h2>
-          <NarrativeSection text={report.ai_narrative} />
-        </div>
+        <ReportNarrativeSection
+          reportId={report.id}
+          narrative={report.ai_narrative}
+        />
       )}
 
       {/* Top pages + traffic sources */}
@@ -293,12 +251,9 @@ export default async function ReportViewPage({
         >
           Download PDF
         </button>
-        {report.ai_narrative && (
-          <EditNarrativeButton reportId={report.id} currentNarrative={report.ai_narrative} />
-        )}
         <Link
           href={`/clients/${client.id}`}
-          className="text-base text-slate-500 hover:text-slate-700 transition-colors px-2"
+          className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
         >
           ← Back to Client
         </Link>
