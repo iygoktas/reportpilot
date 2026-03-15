@@ -3,6 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { ExternalLink, FileText } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import DeleteClientButton from './DeleteClientButton';
+import ConnectPropertyButton from './ConnectPropertyButton';
 
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-US', {
@@ -26,15 +27,25 @@ export default async function ClientDetailPage({
 
   if (!user) redirect('/login');
 
-  const { data: client, error } = await supabase
-    .from('clients')
-    .select('*')
-    .eq('id', id)
-    .eq('user_id', user.id)
-    .single();
+  const [{ data: client, error }, { data: integration }] = await Promise.all([
+    supabase
+      .from('clients')
+      .select('*')
+      .eq('id', id)
+      .eq('user_id', user.id)
+      .single(),
+    supabase
+      .from('integrations')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('provider', 'google')
+      .maybeSingle(),
+  ]);
 
   if (error) notFound();
   if (!client) notFound();
+
+  const isGoogleConnected = !!integration;
 
   return (
     <div className="max-w-2xl">
@@ -70,9 +81,15 @@ export default async function ClientDetailPage({
           Details
         </h2>
         <dl className="space-y-4">
-          <div className="flex justify-between text-base">
+          <div className="flex justify-between items-center text-base">
             <dt className="text-slate-500">GA4 Property</dt>
-            <dd className="text-slate-400 italic">Not connected yet</dd>
+            <dd>
+              <ConnectPropertyButton
+                clientId={client.id}
+                currentPropertyId={client.ga4_property_id}
+                isGoogleConnected={isGoogleConnected}
+              />
+            </dd>
           </div>
           <div className="flex justify-between text-base">
             <dt className="text-slate-500">Reporting since</dt>

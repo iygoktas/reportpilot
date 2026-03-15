@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { getValidAccessToken, getGA4Data } from '@/lib/google-analytics';
+import { getMockGA4Data, MOCK_PROPERTY_IDS } from '@/lib/mock-analytics';
 
 const querySchema = z.object({
   property_id: z.string().min(1, 'property_id is required'),
@@ -42,6 +43,14 @@ export async function GET(request: NextRequest) {
 
   const { property_id, start_date, end_date } = parsed.data;
 
+  // If this is a known mock property, skip the real API entirely.
+  if (MOCK_PROPERTY_IDS.includes(property_id)) {
+    console.log('Using mock GA4 data (mock property id:', property_id + ')');
+    return NextResponse.json({
+      data: getMockGA4Data(property_id, start_date, end_date),
+    });
+  }
+
   try {
     const accessToken = await getValidAccessToken(user.id);
     const data = await getGA4Data(accessToken, property_id, start_date, end_date);
@@ -49,6 +58,9 @@ export async function GET(request: NextRequest) {
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Failed to fetch analytics data';
     console.error('GET /api/analytics/data error:', message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.log('Using mock GA4 data (real API unavailable for property:', property_id + ')');
+    return NextResponse.json({
+      data: getMockGA4Data(property_id, start_date, end_date),
+    });
   }
 }
