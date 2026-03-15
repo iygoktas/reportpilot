@@ -5,6 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import ReportNarrativeSection from '@/components/reports/ReportNarrativeSection';
 import MetricsChart from '@/components/reports/MetricsChart';
 import DownloadPDFButton from '@/components/reports/DownloadPDFButton';
+import EditNarrativeButton from '@/components/reports/EditNarrativeButton';
 import type { GA4Data } from '@/types/analytics';
 import type { Json } from '@/types/database';
 
@@ -147,24 +148,32 @@ export default async function ReportViewPage({
       </Link>
 
       {/* Report header */}
-      <div className="mt-4 mb-8 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+      <div className="mt-4 mb-8 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-stone-800 tracking-tight md:text-3xl">
             Monthly Report: {client.name}
           </h1>
-          <p className="text-base text-stone-500 mt-1">
-            {formatDate(report.period_start)} – {formatDate(report.period_end)}
-          </p>
+          <div className="flex items-center gap-2 mt-1">
+            <p className="text-base text-stone-500">
+              {formatDate(report.period_start)} – {formatDate(report.period_end)}
+            </p>
+            <span
+              className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                report.status === 'final'
+                  ? 'bg-teal-100 text-teal-700'
+                  : 'bg-stone-100 text-stone-500'
+              }`}
+            >
+              {report.status === 'final' ? 'Final' : 'Draft'}
+            </span>
+          </div>
         </div>
-        <span
-          className={`self-start text-xs font-medium px-2.5 py-1 rounded-full ${
-            report.status === 'final'
-              ? 'bg-teal-100 text-teal-700'
-              : 'bg-stone-100 text-stone-500'
-          }`}
-        >
-          {report.status === 'final' ? 'Final' : 'Draft'}
-        </span>
+        <div className="flex items-center gap-2 sm:shrink-0">
+          {report.ai_narrative && (
+            <EditNarrativeButton reportId={report.id} currentNarrative={report.ai_narrative} />
+          )}
+          <DownloadPDFButton reportId={report.id} />
+        </div>
       </div>
 
       {/* Metric cards — 2 cols on mobile, 4 cols on desktop */}
@@ -243,14 +252,13 @@ export default async function ReportViewPage({
         </div>
       </div>
 
-      {/* Action buttons */}
-      <div className="flex flex-wrap items-center gap-3">
-        <DownloadPDFButton reportId={report.id} />
+      {/* Back to client */}
+      <div className="mt-2">
         <Link
           href={`/clients/${client.id}`}
-          className="bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
+          className="text-sm text-stone-500 hover:text-stone-700 transition-colors"
         >
-          ← Back to Client
+          ← Back to {client.name}
         </Link>
       </div>
     </div>

@@ -190,8 +190,8 @@ export default async function ClientDetailPage({
       </div>
 
       {/* Danger zone */}
-      <div className="border border-red-200 rounded-lg p-6 bg-red-50">
-        <h2 className="text-base font-semibold text-red-700 mb-1">Danger Zone</h2>
+      <div className="bg-white border border-stone-200 border-l-4 border-l-red-500 rounded-xl p-6">
+        <h2 className="text-base font-semibold text-red-600 mb-1">Danger Zone</h2>
         <p className="text-base text-stone-500 mb-4">
           Permanently delete this client and all associated reports. This cannot be undone.
         </p>

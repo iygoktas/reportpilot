@@ -71,7 +71,7 @@ export default async function DashboardPage() {
       <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 className="text-3xl font-semibold text-stone-800 tracking-tight">
-            Hi {firstName} 👋
+            Hi {firstName}
           </h1>
           <p className="text-lg text-stone-500 mt-1">
             {clientCount === 0
@@ -232,11 +232,11 @@ export default async function DashboardPage() {
                 </div>
 
                 {/* Generate button */}
-                <div className="pt-1 border-t border-stone-100 mt-auto">
+                <div className="pt-1 border-t border-stone-100 mt-auto flex justify-end">
                   {canGenerate ? (
                     <Link
                       href={`/reports/generate?client_id=${client.id}`}
-                      className="flex items-center justify-center gap-2 w-full bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
+                      className="inline-flex items-center gap-2 bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-4 py-2 text-sm font-medium transition-colors"
                     >
                       <BarChart3 className="w-4 h-4" />
                       Generate Report
@@ -244,7 +244,7 @@ export default async function DashboardPage() {
                   ) : (
                     <Link
                       href={`/clients/${client.id}`}
-                      className="flex items-center justify-center gap-2 w-full bg-white text-stone-600 border border-stone-200 hover:bg-stone-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
+                      className="inline-flex items-center gap-2 bg-white text-stone-600 border border-stone-200 hover:bg-stone-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors"
                     >
                       Connect GA4 to generate
                     </Link>

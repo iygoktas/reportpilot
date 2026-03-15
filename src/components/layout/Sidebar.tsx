@@ -25,6 +25,14 @@ interface SidebarProps {
   user: SidebarUser;
 }
 
+function formatDisplayName(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length < 2) return name;
+  const first = parts[0];
+  const lastInitial = parts[parts.length - 1][0]?.toUpperCase() ?? '';
+  return `${first} ${lastInitial}.`;
+}
+
 export default function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -90,7 +98,7 @@ export default function Sidebar({ user }: SidebarProps) {
 
           <div className="flex-1 min-w-0">
             <p className="text-base font-medium text-stone-700 truncate leading-tight">
-              {user.name}
+              {formatDisplayName(user.name)}
             </p>
             <p className="text-sm text-stone-400 truncate leading-tight">{user.email}</p>
           </div>
