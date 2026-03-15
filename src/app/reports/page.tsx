@@ -52,18 +52,18 @@ export default async function ReportsPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Reports</h1>
-          <p className="text-base text-slate-500 mt-1">All generated reports across your clients.</p>
+          <h1 className="text-3xl font-semibold text-slate-800 tracking-tight">Reports</h1>
+          <p className="text-lg text-slate-500 mt-1">All generated reports across your clients.</p>
         </div>
       </div>
 
       {isEmpty ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-            <FileText className="w-8 h-8 text-slate-400" />
+          <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center mb-5">
+            <FileText className="w-10 h-10 text-blue-400" />
           </div>
-          <h2 className="text-lg font-semibold text-slate-700 mb-1">No reports yet</h2>
-          <p className="text-sm text-slate-500 mb-6">
+          <h2 className="text-2xl font-semibold text-slate-700 mb-1 tracking-tight">No reports yet</h2>
+          <p className="text-lg text-slate-500 mb-6">
             Generate your first report from a client page.
           </p>
           <Link
@@ -74,20 +74,20 @@ export default async function ReportsPage() {
           </Link>
         </div>
       ) : (
-        <div className="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-200 bg-slate-50">
-                <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <th className="text-left px-5 py-3 text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Client
                 </th>
-                <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <th className="text-left px-5 py-3 text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Period
                 </th>
-                <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <th className="text-left px-5 py-3 text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <th className="text-left px-5 py-3 text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Created
                 </th>
                 <th className="px-5 py-3" />

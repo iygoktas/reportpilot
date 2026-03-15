@@ -131,7 +131,7 @@ export default function ReportNarrativeSection({ reportId, narrative }: Props) {
   }
 
   return (
-    <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6 mb-4">
+    <div className="bg-white border border-slate-200 border-l-[4px] border-l-blue-500 rounded-xl shadow-sm p-6 mb-4">
       <div className="flex items-center justify-between mb-5">
         <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
           AI Analysis

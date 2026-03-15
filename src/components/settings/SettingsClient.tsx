@@ -113,8 +113,8 @@ export default function SettingsClient({
     <div className="space-y-6">
 
       {/* Profile */}
-      <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Profile</h2>
+      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-slate-800 mb-4 tracking-tight">Profile</h2>
         <div className="flex items-center gap-4 mb-6">
           {avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -153,8 +153,8 @@ export default function SettingsClient({
       </div>
 
       {/* Integrations */}
-      <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Integrations</h2>
+      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-slate-800 mb-4 tracking-tight">Integrations</h2>
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             {/* Google icon */}
@@ -214,8 +214,8 @@ export default function SettingsClient({
       </div>
 
       {/* Billing */}
-      <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Billing</h2>
+      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-slate-800 mb-4 tracking-tight">Billing</h2>
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="text-sm font-medium text-slate-800">

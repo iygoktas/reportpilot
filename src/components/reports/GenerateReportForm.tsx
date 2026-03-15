@@ -138,8 +138,8 @@ export default function GenerateReportForm({ client }: Props) {
         <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-6">
           <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
         </div>
-        <h2 className="text-xl font-semibold text-slate-800 mb-2">Generating your report…</h2>
-        <p className="text-base text-slate-500 transition-all duration-500">
+        <h2 className="text-2xl font-semibold text-slate-800 mb-2 tracking-tight">Generating your report…</h2>
+        <p className="text-lg text-slate-500 transition-all duration-500">
           {LOADING_MESSAGES[loadingMessageIndex]}
         </p>
         <p className="text-sm text-slate-400 mt-4">This usually takes 10–20 seconds.</p>
@@ -149,7 +149,7 @@ export default function GenerateReportForm({ client }: Props) {
 
   return (
     <div className="max-w-lg">
-      <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6 space-y-6">
+      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-8 space-y-6">
         {/* Client info */}
         <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
           <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
@@ -208,7 +208,7 @@ export default function GenerateReportForm({ client }: Props) {
           <button
             onClick={handleGenerate}
             disabled={!periodStart || !periodEnd}
-            className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-5 py-2.5 text-base font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-6 py-3 text-base font-medium transition-all duration-200 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
           >
             Generate Report
           </button>

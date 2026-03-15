@@ -39,8 +39,8 @@ export default async function SettingsPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-800">Settings</h1>
-        <p className="text-slate-500 mt-1">Manage your account, integrations, and billing.</p>
+        <h1 className="text-3xl font-semibold text-slate-800 tracking-tight">Settings</h1>
+        <p className="text-lg text-slate-500 mt-1">Manage your account, integrations, and billing.</p>
       </div>
       <Suspense fallback={<SettingsSkeleton />}>
         <SettingsClient
@@ -61,7 +61,7 @@ function SettingsSkeleton() {
   return (
     <div className="space-y-6">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
+        <div key={i} className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
           <Skeleton className="h-5 w-24 mb-4" />
           <Skeleton className="h-16 w-full" />
         </div>

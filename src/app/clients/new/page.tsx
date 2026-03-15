@@ -159,14 +159,14 @@ export default function NewClientPage() {
         >
           ← Back to Clients
         </Link>
-        <h1 className="text-xl font-bold text-slate-800 mt-3 md:text-2xl">Add Client</h1>
-        <p className="text-base text-slate-500 mt-1">
+        <h1 className="text-3xl font-semibold text-slate-800 mt-3 tracking-tight">Add Client</h1>
+        <p className="text-lg text-slate-500 mt-1">
           Add a client to start generating reports for them.
         </p>
       </div>
 
       {/* Form card */}
-      <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
+      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-8">
         <form onSubmit={handleSubmit} noValidate className="space-y-6">
           {/* Client Name */}
           <div>
@@ -302,13 +302,13 @@ export default function NewClientPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-5 py-2.5 text-base font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-6 py-3 text-base font-medium transition-all duration-200 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Adding…' : 'Add Client'}
             </button>
             <Link
               href="/clients"
-              className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors text-center"
+              className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-6 py-3 text-base font-medium transition-all duration-200 text-center"
             >
               Cancel
             </Link>

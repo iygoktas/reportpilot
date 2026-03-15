@@ -61,12 +61,12 @@ export default function LoginPage() {
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-10">
 
         {/* Logo */}
-        <p className="text-2xl font-bold text-slate-800">ReportPilot</p>
+        <p className="text-2xl font-semibold text-slate-800 tracking-tight">ReportPilot</p>
 
         {/* Heading */}
         <div className="mt-8">
-          <h1 className="text-3xl font-bold text-slate-800">Welcome back</h1>
-          <p className="mt-2 text-base text-slate-500">
+          <h1 className="text-3xl font-semibold text-slate-800 tracking-tight">Welcome back</h1>
+          <p className="mt-2 text-lg text-slate-500">
             Sign in to continue to your dashboard
           </p>
         </div>
@@ -83,7 +83,7 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-5 py-3.5 text-base font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-6 py-3.5 text-base font-medium transition-all duration-200 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <span className="w-5 h-5 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin shrink-0" />

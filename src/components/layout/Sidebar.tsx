@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, FileText, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Settings, BarChart3, LogOut } from 'lucide-react';
+import { createClient as createBrowserClient } from '@/lib/supabase/client';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -25,16 +27,31 @@ interface SidebarProps {
 
 export default function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleSignOut() {
+    const supabase = createBrowserClient();
+    await supabase.auth.signOut();
+    router.push('/login');
+  }
 
   return (
     <aside className="hidden md:flex fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 flex-col z-20">
+      {/* Blue accent line at top */}
+      <div className="h-[2px] bg-blue-500 shrink-0" />
+
       {/* Logo */}
       <div className="px-6 py-5 border-b border-slate-200">
-        <span className="text-xl font-bold text-slate-800">ReportPilot</span>
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-lg bg-blue-500 flex items-center justify-center shrink-0">
+            <BarChart3 className="w-4 h-4 text-white" />
+          </div>
+          <span className="text-2xl font-semibold text-slate-800 tracking-tight">ReportPilot</span>
+        </div>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav className="flex-1 px-3 py-4 space-y-0.5">
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + '/');
           return (
@@ -43,20 +60,20 @@ export default function Sidebar({ user }: SidebarProps) {
               href={href}
               className={
                 active
-                  ? 'flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-600 font-medium'
-                  : 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors'
+                  ? 'flex items-center gap-3 pl-[9px] pr-3 py-2.5 rounded-lg bg-blue-50/70 text-blue-600 font-medium border-l-[3px] border-blue-500 transition-all duration-200'
+                  : 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-all duration-200'
               }
             >
               <Icon className="w-5 h-5 shrink-0" />
-              <span className="text-base">{label}</span>
+              <span className="text-base font-medium">{label}</span>
             </Link>
           );
         })}
       </nav>
 
       {/* User card */}
-      <div className="px-3 py-4 border-t border-slate-200">
-        <div className="bg-slate-50 rounded-lg p-3 flex items-center gap-3">
+      <div className="px-3 pb-2 border-t border-slate-200 pt-4">
+        <div className="bg-slate-50 rounded-xl p-3 flex items-center gap-3">
           {/* Avatar: Google picture or initials */}
           {user.avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -72,7 +89,6 @@ export default function Sidebar({ user }: SidebarProps) {
           )}
 
           <div className="flex-1 min-w-0">
-            {/* Show full name; truncate only if very long */}
             <p className="text-base font-medium text-slate-700 truncate leading-tight">
               {user.name}
             </p>
@@ -89,6 +105,17 @@ export default function Sidebar({ user }: SidebarProps) {
             </span>
           )}
         </div>
+      </div>
+
+      {/* Sign out */}
+      <div className="px-3 pb-4">
+        <button
+          onClick={handleSignOut}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors text-sm"
+        >
+          <LogOut className="w-4 h-4 shrink-0" />
+          Sign out
+        </button>
       </div>
     </aside>
   );

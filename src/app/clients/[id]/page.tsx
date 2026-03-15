@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import { ExternalLink, FileText } from 'lucide-react';
+import { ExternalLink, FileText, Calendar, BarChart3, PlusCircle } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import type { Report } from '@/types/database';
 import DeleteClientButton from './DeleteClientButton';
@@ -67,7 +67,7 @@ export default async function ClientDetailPage({
 
       {/* Client header */}
       <div className="mt-4 mb-8">
-        <h1 className="text-xl font-bold text-slate-800 md:text-2xl">{client.name}</h1>
+        <h1 className="text-3xl font-semibold text-slate-800 tracking-tight">{client.name}</h1>
         {client.website_url ? (
           <a
             href={client.website_url}
@@ -84,13 +84,18 @@ export default async function ClientDetailPage({
       </div>
 
       {/* Details card */}
-      <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6 mb-4">
-        <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">
+      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 mb-4">
+        <h2 className="text-xl font-semibold text-slate-800 mb-5 tracking-tight">
           Details
         </h2>
-        <dl className="space-y-4">
-          <div className="flex justify-between items-center text-base">
-            <dt className="text-slate-500">GA4 Property</dt>
+        <dl className="space-y-5">
+          <div className="flex justify-between items-center">
+            <dt className="flex items-center gap-2.5 text-base text-slate-500">
+              <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center">
+                <BarChart3 className="w-4 h-4 text-slate-400" />
+              </div>
+              GA4 Property
+            </dt>
             <dd>
               <ConnectPropertyButton
                 clientId={client.id}
@@ -99,23 +104,35 @@ export default async function ClientDetailPage({
               />
             </dd>
           </div>
-          <div className="flex justify-between text-base">
-            <dt className="text-slate-500">Reporting since</dt>
-            <dd className="text-slate-800">
+          <div className="h-px bg-slate-100" />
+          <div className="flex justify-between items-center">
+            <dt className="flex items-center gap-2.5 text-base text-slate-500">
+              <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center">
+                <Calendar className="w-4 h-4 text-slate-400" />
+              </div>
+              Reporting since
+            </dt>
+            <dd className="text-base text-slate-800">
               {client.start_date ? formatDate(client.start_date) : '—'}
             </dd>
           </div>
-          <div className="flex justify-between text-base">
-            <dt className="text-slate-500">Added on</dt>
-            <dd className="text-slate-800">{formatDate(client.created_at)}</dd>
+          <div className="h-px bg-slate-100" />
+          <div className="flex justify-between items-center">
+            <dt className="flex items-center gap-2.5 text-base text-slate-500">
+              <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center">
+                <PlusCircle className="w-4 h-4 text-slate-400" />
+              </div>
+              Added on
+            </dt>
+            <dd className="text-base text-slate-800">{formatDate(client.created_at)}</dd>
           </div>
         </dl>
       </div>
 
       {/* Reports section */}
-      <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6 mb-6">
+      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 mb-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
+          <h2 className="text-xl font-semibold text-slate-800 tracking-tight">
             Reports
           </h2>
           {canGenerateReport ? (
@@ -138,7 +155,9 @@ export default async function ClientDetailPage({
 
         {reportList.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <FileText className="w-14 h-14 text-slate-300 mb-4" />
+            <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+              <FileText className="w-8 h-8 text-blue-400" />
+            </div>
             <p className="text-base font-medium text-slate-700">No reports yet</p>
             <p className="text-sm text-slate-500 mt-1">
               {canGenerateReport

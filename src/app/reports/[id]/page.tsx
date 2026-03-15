@@ -62,13 +62,13 @@ function MetricCard({ label, value, change, invertColors = false }: MetricCardPr
   const isNegative = invertColors ? change > 0 : change < 0;
 
   const cardClass = isPositive
-    ? 'bg-green-50 border-green-200'
+    ? 'bg-emerald-50/50 border-emerald-200 border-l-[4px] border-l-emerald-500'
     : isNegative
-    ? 'bg-red-50 border-red-200'
-    : 'bg-white border-slate-200';
+    ? 'bg-red-50/50 border-red-200 border-l-[4px] border-l-red-500'
+    : 'bg-white border-slate-200 border-l-[4px] border-l-slate-300';
 
   const changeClass = isPositive
-    ? 'text-green-500'
+    ? 'text-emerald-600'
     : isNegative
     ? 'text-red-500'
     : 'text-slate-500';
@@ -76,9 +76,9 @@ function MetricCard({ label, value, change, invertColors = false }: MetricCardPr
   const arrow = change > 0 ? '↑' : change < 0 ? '↓' : '→';
 
   return (
-    <div className={`border rounded-lg p-4 ${cardClass}`}>
-      <p className="text-sm text-slate-500 mb-1">{label}</p>
-      <p className="text-2xl font-bold text-slate-800">{value}</p>
+    <div className={`border rounded-xl p-4 ${cardClass}`}>
+      <p className="text-base text-slate-500 mb-1">{label}</p>
+      <p className="text-4xl font-semibold text-slate-800 tracking-tight">{value}</p>
       {change !== 0 ? (
         <p className={`text-sm font-medium mt-1 ${changeClass}`}>
           {arrow} {Math.abs(change)}%
@@ -149,7 +149,7 @@ export default async function ReportViewPage({
       {/* Report header */}
       <div className="mt-4 mb-8 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-xl font-bold text-slate-800 md:text-2xl">
+          <h1 className="text-2xl font-semibold text-slate-800 tracking-tight md:text-3xl">
             Monthly Report: {client.name}
           </h1>
           <p className="text-base text-slate-500 mt-1">
@@ -210,7 +210,7 @@ export default async function ReportViewPage({
 
       {/* Top pages + traffic sources */}
       <div className="grid grid-cols-1 gap-4 mb-6 sm:grid-cols-2">
-        <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
           <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">
             Top Pages
           </h2>
@@ -226,7 +226,7 @@ export default async function ReportViewPage({
           </ol>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
           <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">
             Traffic Sources
           </h2>

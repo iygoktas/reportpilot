@@ -26,7 +26,7 @@ export default async function LandingPage() {
       {/* ── Navbar ─────────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-slate-200/80">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="text-xl font-extrabold text-slate-800 tracking-tight">
+          <span className="text-xl font-semibold text-slate-800 tracking-tight">
             ReportPilot
           </span>
           <nav className="flex items-center gap-3">
@@ -211,7 +211,7 @@ export default async function LandingPage() {
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">
               How it works
             </p>
-            <h2 className="text-3xl font-bold text-slate-800 tracking-tight">
+            <h2 className="text-4xl font-semibold text-slate-800 tracking-tight">
               From data to report in minutes
             </h2>
           </div>
@@ -231,8 +231,8 @@ export default async function LandingPage() {
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 ring-4 ring-slate-50 mb-5">
                   <Link2 className="w-5 h-5 text-blue-500" />
                 </div>
-                <h3 className="text-base font-semibold text-slate-800 mb-2">Connect</h3>
-                <p className="text-sm text-slate-500 leading-relaxed max-w-xs mx-auto">
+                <h3 className="text-lg font-semibold text-slate-800 mb-2">Connect</h3>
+                <p className="text-base text-slate-500 leading-relaxed max-w-xs mx-auto">
                   Link your Google Analytics account in one click
                 </p>
               </div>
@@ -247,8 +247,8 @@ export default async function LandingPage() {
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 ring-4 ring-slate-50 mb-5">
                   <Sparkles className="w-5 h-5 text-blue-500" />
                 </div>
-                <h3 className="text-base font-semibold text-slate-800 mb-2">Generate</h3>
-                <p className="text-sm text-slate-500 leading-relaxed max-w-xs mx-auto">
+                <h3 className="text-lg font-semibold text-slate-800 mb-2">Generate</h3>
+                <p className="text-base text-slate-500 leading-relaxed max-w-xs mx-auto">
                   AI analyzes your data and writes professional insights
                 </p>
               </div>
@@ -263,8 +263,8 @@ export default async function LandingPage() {
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 ring-4 ring-slate-50 mb-5">
                   <Send className="w-5 h-5 text-blue-500" />
                 </div>
-                <h3 className="text-base font-semibold text-slate-800 mb-2">Send</h3>
-                <p className="text-sm text-slate-500 leading-relaxed max-w-xs mx-auto">
+                <h3 className="text-lg font-semibold text-slate-800 mb-2">Send</h3>
+                <p className="text-base text-slate-500 leading-relaxed max-w-xs mx-auto">
                   Download PDF and impress your clients
                 </p>
               </div>
@@ -307,7 +307,7 @@ export default async function LandingPage() {
                 'Google Analytics integration',
                 'Up to 5 clients',
               ].map((feature) => (
-                <li key={feature} className="flex items-center gap-3 text-sm text-slate-700">
+                <li key={feature} className="flex items-center gap-3 text-base text-slate-700">
                   <Check className="w-4 h-4 text-green-500 shrink-0" />
                   {feature}
                 </li>
@@ -330,7 +330,7 @@ export default async function LandingPage() {
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
       <footer className="bg-white border-t border-slate-200 py-8 px-6">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span className="text-base font-extrabold text-slate-800 tracking-tight">
+          <span className="text-base font-semibold text-slate-800 tracking-tight">
             ReportPilot
           </span>
           <p className="text-sm text-slate-400">
