@@ -14,8 +14,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "ReportPilot",
-  description: "AI-powered client reporting for freelance marketers and small agencies",
+  title: "ReportPilot — AI-Powered Client Reports",
+  description: "Generate professional client reports from Google Analytics in minutes. AI-written insights, PDF export. Built for freelancers and agencies.",
 };
 
 export default function RootLayout({

@@ -84,16 +84,18 @@ export default async function LandingPage() {
             {/* Overlapping avatar circles */}
             <div className="flex items-center">
               {[
-                'bg-stone-300',
-                'bg-stone-400',
-                'bg-stone-200',
-                'bg-stone-350',
-                'bg-stone-500',
-              ].map((bg, i) => (
+                { bg: 'bg-orange-400', letter: 'S' },
+                { bg: 'bg-teal-400',   letter: 'M' },
+                { bg: 'bg-amber-400',  letter: 'P' },
+                { bg: 'bg-rose-400',   letter: 'J' },
+                { bg: 'bg-violet-400', letter: 'A' },
+              ].map(({ bg, letter }, i) => (
                 <div
                   key={i}
-                  className={`w-8 h-8 rounded-full ${bg} border-2 border-white ${i !== 0 ? '-ml-2' : ''}`}
-                />
+                  className={`w-9 h-9 rounded-full ${bg} border-2 border-white flex items-center justify-center ${i !== 0 ? '-ml-2.5' : ''}`}
+                >
+                  <span className="text-white text-sm font-semibold leading-none">{letter}</span>
+                </div>
               ))}
             </div>
             <span className="text-sm text-stone-500 font-medium">
