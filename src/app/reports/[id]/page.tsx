@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import ReportNarrativeSection from '@/components/reports/ReportNarrativeSection';
 import MetricsChart from '@/components/reports/MetricsChart';
+import DownloadPDFButton from '@/components/reports/DownloadPDFButton';
 import type { GA4Data } from '@/types/analytics';
 import type { Json } from '@/types/database';
 
@@ -244,13 +245,7 @@ export default async function ReportViewPage({
 
       {/* Action buttons */}
       <div className="flex flex-wrap items-center gap-3">
-        <button
-          disabled
-          title="PDF export coming soon"
-          className="bg-blue-500 text-white rounded-lg px-5 py-2.5 text-base font-medium opacity-50 cursor-not-allowed"
-        >
-          Download PDF
-        </button>
+        <DownloadPDFButton reportId={report.id} />
         <Link
           href={`/clients/${client.id}`}
           className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
