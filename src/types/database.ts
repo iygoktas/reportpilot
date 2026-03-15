@@ -34,6 +34,7 @@ export type Database = {
           plan?: 'free' | 'pro';
           created_at?: string;
         };
+        Relationships: [];
       };
       clients: {
         Row: {
@@ -63,6 +64,15 @@ export type Database = {
           start_date?: string | null;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'clients_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       integrations: {
         Row: {
@@ -92,6 +102,15 @@ export type Database = {
           expires_at?: string;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'integrations_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       reports: {
         Row: {
@@ -130,11 +149,20 @@ export type Database = {
           status?: 'draft' | 'final';
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: 'reports_client_id_fkey';
+            columns: ['client_id'];
+            isOneToOne: false;
+            referencedRelation: 'clients';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
-    Views: Record<string, never>;
-    Functions: Record<string, never>;
-    Enums: Record<string, never>;
+    Views: Record<never, never>;
+    Functions: Record<never, never>;
+    Enums: Record<never, never>;
   };
 };
 

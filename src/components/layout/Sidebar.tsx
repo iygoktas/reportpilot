@@ -11,7 +11,19 @@ const navItems = [
   { href: '/settings',  label: 'Settings',  icon: Settings },
 ];
 
-export default function Sidebar() {
+export interface SidebarUser {
+  name: string;
+  email: string;
+  avatarUrl: string | null;
+  initials: string;
+  plan: 'free' | 'pro';
+}
+
+interface SidebarProps {
+  user: SidebarUser;
+}
+
+export default function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -45,16 +57,34 @@ export default function Sidebar() {
       {/* User card */}
       <div className="px-3 py-4 border-t border-slate-200">
         <div className="bg-slate-50 rounded-lg p-3 flex items-center gap-3">
-          {/* Avatar with initials */}
-          <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center shrink-0">
-            <span className="text-xs font-medium text-white">JD</span>
-          </div>
+          {/* Avatar: Google picture or initials */}
+          {user.avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={user.avatarUrl}
+              alt={user.name}
+              className="w-8 h-8 rounded-full shrink-0 object-cover"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center shrink-0">
+              <span className="text-xs font-medium text-white">{user.initials}</span>
+            </div>
+          )}
+
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-slate-700 truncate">John Doe</p>
+            <p className="text-sm font-medium text-slate-700 truncate">{user.name}</p>
+            <p className="text-xs text-slate-400 truncate">{user.email}</p>
           </div>
-          <span className="bg-slate-100 text-slate-500 text-xs font-medium px-2 py-0.5 rounded-full shrink-0">
-            Free
-          </span>
+
+          {user.plan === 'pro' ? (
+            <span className="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full shrink-0">
+              Pro
+            </span>
+          ) : (
+            <span className="bg-slate-100 text-slate-500 text-xs font-medium px-2 py-0.5 rounded-full shrink-0">
+              Free
+            </span>
+          )}
         </div>
       </div>
     </aside>
