@@ -223,30 +223,30 @@ export default async function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Last report info */}
-                <div className="flex items-center gap-2 text-sm text-stone-400">
-                  <FileText className="w-4 h-4 shrink-0" />
-                  {latestReport
-                    ? `Last report: ${formatReportDate(latestReport.created_at)}`
-                    : 'No reports yet'}
-                </div>
-
-                {/* Generate button */}
-                <div className="pt-1 border-t border-stone-100 mt-auto flex justify-end">
+                {/* Bottom row: last report + generate button */}
+                <div className="pt-3 border-t border-stone-100 mt-auto flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-1.5 text-sm text-stone-400 min-w-0">
+                    <FileText className="w-4 h-4 shrink-0" />
+                    <span className="truncate">
+                      {latestReport
+                        ? `Last report: ${formatReportDate(latestReport.created_at)}`
+                        : 'No reports yet'}
+                    </span>
+                  </div>
                   {canGenerate ? (
                     <Link
                       href={`/reports/generate?client_id=${client.id}`}
-                      className="inline-flex items-center gap-2 bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-4 py-2 text-sm font-medium transition-colors"
+                      className="inline-flex items-center gap-1.5 bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors shrink-0"
                     >
-                      <BarChart3 className="w-4 h-4" />
-                      Generate Report
+                      <BarChart3 className="w-3.5 h-3.5" />
+                      Generate
                     </Link>
                   ) : (
                     <Link
                       href={`/clients/${client.id}`}
-                      className="inline-flex items-center gap-2 bg-white text-stone-600 border border-stone-200 hover:bg-stone-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors"
+                      className="inline-flex items-center gap-1.5 bg-white text-stone-500 border border-stone-200 hover:bg-stone-50 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors shrink-0"
                     >
-                      Connect GA4 to generate
+                      Connect GA4
                     </Link>
                   )}
                 </div>

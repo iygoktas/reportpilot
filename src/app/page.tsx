@@ -107,56 +107,6 @@ export default async function LandingPage() {
             </div>
           </div>
         </div>
-
-        {/* ── Report preview card mockup ──────────────────────────────────── */}
-        <div className="mt-16 max-w-2xl mx-auto px-4">
-          <div
-            className="bg-white rounded-2xl shadow-2xl border border-stone-200 p-6"
-            style={{ transform: 'perspective(1200px) rotateY(-3deg) rotateX(2deg)' }}
-          >
-            {/* Report header */}
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold text-stone-800">Monthly Report: Acme Corp</h2>
-              <p className="text-sm text-stone-400">Feb 2026</p>
-            </div>
-
-            {/* 4 metric boxes */}
-            <div className="grid grid-cols-4 gap-2.5 mb-5">
-              <div className="bg-teal-50 border-l-4 border-teal-600 rounded-lg p-2.5">
-                <p className="text-xs text-stone-400 mb-1">Sessions</p>
-                <p className="text-base font-bold text-stone-800">2,363</p>
-                <p className="text-xs text-teal-600 font-medium">↑ 15%</p>
-              </div>
-              <div className="bg-teal-50 border-l-4 border-teal-600 rounded-lg p-2.5">
-                <p className="text-xs text-stone-400 mb-1">Users</p>
-                <p className="text-base font-bold text-stone-800">1,920</p>
-                <p className="text-xs text-teal-600 font-medium">↑ 37%</p>
-              </div>
-              <div className="bg-teal-50 border-l-4 border-teal-600 rounded-lg p-2.5">
-                <p className="text-xs text-stone-400 mb-1">Duration</p>
-                <p className="text-base font-bold text-stone-800">2m55s</p>
-                <p className="text-xs text-teal-600 font-medium">↑ 28%</p>
-              </div>
-              <div className="bg-stone-50 border-l-4 border-stone-300 rounded-lg p-2.5">
-                <p className="text-xs text-stone-400 mb-1">Bounce</p>
-                <p className="text-base font-bold text-stone-800">39.1%</p>
-                <p className="text-xs text-stone-400 font-medium">→ stable</p>
-              </div>
-            </div>
-
-            {/* AI summary snippet */}
-            <div className="bg-stone-50 rounded-xl p-4 space-y-1.5">
-              <p className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-2">AI Analysis Preview</p>
-              <div className="h-2.5 w-full bg-stone-200 rounded-full" />
-              <div className="h-2.5 w-5/6 bg-stone-200 rounded-full" />
-              <div className="h-2.5 w-4/6 bg-stone-200 rounded-full" />
-              <div className="h-2.5 w-5/6 bg-stone-200 rounded-full" />
-            </div>
-          </div>
-
-          {/* Bottom fade */}
-          <div className="h-16 bg-gradient-to-b from-transparent to-stone-50 -mt-16 relative z-10 pointer-events-none" />
-        </div>
       </section>
 
       {/* ── How It Works ───────────────────────────────────────────────────── */}
