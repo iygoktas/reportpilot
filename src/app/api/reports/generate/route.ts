@@ -68,6 +68,39 @@ export async function POST(request: NextRequest) {
 
   const { clientId, periodStart, periodEnd } = parsed.data;
 
+  // -----------------------------------------------------------------------
+  // Paywall check — free users are limited to 1 report total
+  // -----------------------------------------------------------------------
+  const { data: profile } = await adminSupabase
+    .from('profiles')
+    .select('plan')
+    .eq('id', user.id)
+    .single();
+
+  if (profile?.plan !== 'pro') {
+    // Count all reports across all of this user's clients
+    const { data: userClients } = await adminSupabase
+      .from('clients')
+      .select('id')
+      .eq('user_id', user.id);
+
+    const clientIds = (userClients ?? []).map((c) => c.id);
+
+    if (clientIds.length > 0) {
+      const { count } = await adminSupabase
+        .from('reports')
+        .select('id', { count: 'exact', head: true })
+        .in('client_id', clientIds);
+
+      if ((count ?? 0) >= 1) {
+        return NextResponse.json(
+          { error: 'Upgrade to Pro to generate more reports', code: 'PAYWALL' },
+          { status: 403 }
+        );
+      }
+    }
+  }
+
   // Verify the client belongs to this user and has a GA4 property
   const { data: client, error: clientError } = await adminSupabase
     .from('clients')

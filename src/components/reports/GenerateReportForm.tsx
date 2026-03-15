@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, BarChart3, AlertCircle } from 'lucide-react';
+import Link from 'next/link';
+import { Loader2, BarChart3, AlertCircle, ArrowRight } from 'lucide-react';
 import type { Client } from '@/types/database';
 
 const LOADING_MESSAGES = [
@@ -27,6 +28,7 @@ export default function GenerateReportForm({ client }: Props) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const [isPaywalled, setIsPaywalled] = useState(false);
 
   useEffect(() => {
     const today = new Date();
@@ -63,7 +65,14 @@ export default function GenerateReportForm({ client }: Props) {
         }),
       });
 
-      const json = await res.json() as { report?: { id: string }; error?: string };
+      const json = await res.json() as { report?: { id: string }; error?: string; code?: string };
+
+      if (res.status === 403 && json.code === 'PAYWALL') {
+        setIsPaywalled(true);
+        setIsGenerating(false);
+        setLoadingMessageIndex(0);
+        return;
+      }
 
       if (!res.ok || !json.report) {
         throw new Error(json.error ?? 'Failed to generate report');
@@ -83,6 +92,45 @@ export default function GenerateReportForm({ client }: Props) {
       new Date(d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     return `${fmt(periodStart)} – ${fmt(periodEnd)}`;
   })();
+
+  if (isPaywalled) {
+    return (
+      <div className="max-w-lg">
+        <div className="bg-white border border-blue-200 rounded-lg shadow-sm p-8 text-center">
+          <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-4">
+            <BarChart3 className="w-7 h-7 text-blue-500" />
+          </div>
+          <h2 className="text-xl font-semibold text-slate-800 mb-2">Free plan limit reached</h2>
+          <p className="text-sm text-slate-500 mb-6">
+            You&apos;ve used your 1 free report. Upgrade to Pro to generate unlimited reports for all your clients.
+          </p>
+          <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6 text-left space-y-2">
+            <p className="text-sm font-medium text-slate-700">Pro plan includes:</p>
+            <ul className="text-sm text-slate-500 space-y-1">
+              <li>✓ Unlimited reports</li>
+              <li>✓ Up to 10 clients</li>
+              <li>✓ Full AI narratives &amp; PDF export</li>
+            </ul>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Link
+              href="/settings"
+              className="inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
+            >
+              Upgrade to Pro
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <button
+              onClick={() => router.back()}
+              className="text-sm text-slate-500 hover:text-slate-700 transition-colors py-1"
+            >
+              Go back
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isGenerating) {
     return (

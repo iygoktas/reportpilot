@@ -37,10 +37,12 @@ export default function SettingsClient({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [disconnecting, setDisconnecting] = useState(false);
+  const [billingLoading, setBillingLoading] = useState(false);
 
   useEffect(() => {
     const gaConnected = searchParams.get('ga_connected');
     const gaError = searchParams.get('ga_error');
+    const subscription = searchParams.get('subscription');
 
     if (gaConnected === 'true') {
       toast.success('Google Analytics connected successfully.');
@@ -48,7 +50,39 @@ export default function SettingsClient({
       const message = GA_ERROR_MESSAGES[gaError] ?? 'Failed to connect Google Analytics.';
       toast.error(message);
     }
+
+    if (subscription === 'success') {
+      toast.success('You\'re now on the Pro plan! Enjoy unlimited reports.');
+    } else if (subscription === 'cancelled') {
+      toast.info('Upgrade cancelled. You\'re still on the Free plan.');
+    }
   }, [searchParams]);
+
+  async function handleUpgrade() {
+    setBillingLoading(true);
+    try {
+      const res = await fetch('/api/stripe/checkout', { method: 'POST' });
+      const json = await res.json() as { url?: string; error?: string };
+      if (!res.ok || !json.url) throw new Error(json.error ?? 'Failed to create checkout session');
+      window.location.href = json.url;
+    } catch {
+      toast.error('Failed to open checkout. Please try again.');
+      setBillingLoading(false);
+    }
+  }
+
+  async function handleManagePortal() {
+    setBillingLoading(true);
+    try {
+      const res = await fetch('/api/stripe/portal');
+      const json = await res.json() as { url?: string; error?: string };
+      if (!res.ok || !json.url) throw new Error(json.error ?? 'Failed to open billing portal');
+      window.location.href = json.url;
+    } catch {
+      toast.error('Failed to open billing portal. Please try again.');
+      setBillingLoading(false);
+    }
+  }
 
   async function handleDisconnect() {
     setDisconnecting(true);
@@ -222,16 +256,35 @@ export default function SettingsClient({
           </div>
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          disabled
-          className="text-slate-500 border-slate-200 cursor-not-allowed"
-        >
-          <CreditCard className="w-4 h-4 mr-1.5" />
-          Manage Subscription
-        </Button>
-        <p className="text-xs text-slate-400 mt-2">Stripe billing portal coming soon.</p>
+        {plan === 'pro' ? (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleManagePortal}
+            disabled={billingLoading}
+          >
+            {billingLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
+            ) : (
+              <CreditCard className="w-4 h-4 mr-1.5" />
+            )}
+            Manage Subscription
+          </Button>
+        ) : (
+          <Button
+            size="sm"
+            onClick={handleUpgrade}
+            disabled={billingLoading}
+            className="bg-blue-500 hover:bg-blue-600 text-white"
+          >
+            {billingLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin mr-1.5" />
+            ) : (
+              <CreditCard className="w-4 h-4 mr-1.5" />
+            )}
+            Upgrade to Pro
+          </Button>
+        )}
       </div>
     </div>
   );
