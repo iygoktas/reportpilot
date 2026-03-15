@@ -3,30 +3,31 @@ import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import type { GA4Data } from '@/types/analytics';
 
 // ---------------------------------------------------------------------------
-// A4 page geometry (points)
-//   841.89 × 595.28 pt
-//   PAD_TOP 36 + PAD_BOTTOM 48  →  usable height ≈ 757 pt
-//   PAD_H   44 each side        →  usable width  ≈ 507 pt
+// A4 Portrait geometry (points): 595.28 w × 841.89 h
+//   PAD_TOP    36  PAD_BOTTOM  48  →  usable height = 757 pt
+//   PAD_H      44 each side   →  usable width  = 507 pt
 //
-// PAGE 1 HEIGHT BUDGET:
-//   header          ≈  40 pt
-//   "Performance"   ≈  15 pt
-//   metrics 2×2     ≈ 128 pt  (card 52pt, gap 8, 2 rows, margin 16)
-//   "AI Analysis"   ≈  15 pt
-//   narrative card  ≈ 559 pt  (remaining)
-//   ─────────────────────────
-//   total           ≈ 757 pt  ✓
+// PAGE 1 HEIGHT BUDGET (with larger fonts):
+//   header           ≈  55 pt  (logo 22pt + paddingBottom 12 + marginBottom 16 + sub)
+//   sectionLabel     ≈  16 pt  (8pt text + 8pt margin)
+//   metricsGrid      ≈ 160 pt  (2 rows × 67pt card + 8pt gap + 18pt margin)
+//   sectionLabel     ≈  16 pt
+//   narrativeCard    ≈ 510 pt  (remaining budget)
+//   ────────────────────────────────
+//   total            ≈ 757 pt  ✓
 //
-// PAGE 2 HEIGHT BUDGET:
-//   header           ≈  40 pt
-//   table 1 block    ≈ 345 pt  (title 16 + hdr row 30 + 5×57 + margin 14)
-//   table 2 block    ≈ 345 pt
-//   ─────────────────────────
-//   total            ≈ 730 pt  (27 pt breathing room before fixed footer)
+// PAGE 2 HEIGHT BUDGET (5 rows per table):
+//   header           ≈  55 pt
+//   table 1 block    ≈ 346 pt  (title 22 + hdrRow 39 + 5×53 + card 304 + margin 20)
+//   table 2 block    ≈ 346 pt
+//   ────────────────────────────────
+//   total            ≈ 747 pt  (10 pt breathing room before fixed footer)
 // ---------------------------------------------------------------------------
 
-const PAD_H = 44;
-const PAD_TOP = 36;
+const MAX_TABLE_ROWS = 5;   // hard cap — prevents 3rd-page overflow
+
+const PAD_H      = 44;
+const PAD_TOP    = 36;
 const PAD_BOTTOM = 48;
 
 const s = StyleSheet.create({
@@ -36,186 +37,188 @@ const s = StyleSheet.create({
     paddingTop: PAD_TOP,
     paddingBottom: PAD_BOTTOM,
     paddingHorizontal: PAD_H,
-    color: '#1E293B',
-    fontSize: 9,
+    color: '#1c1917',
+    fontSize: 11,
   },
 
   // ── Header ───────────────────────────────────────────────────────────────
-  // Height: max(logo ~15, rightStack ~21) + paddingBottom 10 + marginBottom 14 = ~40 pt
+  // max(logo 22pt, title 14 + gap 3 + sub 10 = 27pt) = 27pt
+  // + paddingBottom 12 + border 2 + marginBottom 16 = 57pt total
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
-    marginBottom: 14,
+    paddingBottom: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#EA580C',
+    marginBottom: 16,
   },
   logoText: {
     fontFamily: 'Helvetica-Bold',
-    fontSize: 14,
+    fontSize: 22,
     color: '#EA580C',
   },
   headerRight: { alignItems: 'flex-end' },
   headerTitle: {
     fontFamily: 'Helvetica-Bold',
-    fontSize: 11,
-    color: '#1E293B',
+    fontSize: 14,
+    color: '#1c1917',
   },
-  headerSub: { fontSize: 8, color: '#64748B', marginTop: 2 },
+  headerSub: { fontSize: 10, color: '#78716c', marginTop: 3 },
 
   // ── Section label ─────────────────────────────────────────────────────────
-  // Height: 7 pt text + 8 pt margin = 15 pt
+  // 8pt text + 8pt marginBottom = 16pt
   sectionLabel: {
     fontFamily: 'Helvetica-Bold',
-    fontSize: 7,
-    color: '#94A3B8',
+    fontSize: 8,
+    color: '#a8a29e',
     textTransform: 'uppercase',
     letterSpacing: 0.8,
     marginBottom: 8,
   },
 
   // ── Metric cards (2×2) ───────────────────────────────────────────────────
-  // Card height: paddingV×2(16) + label(8) + gap(3) + value(14) + gap(2) + change(8) = 51 pt
-  // Grid: row1(51) + gap(8) + row2(51) + marginBottom(16) = 126 pt
+  // Card height: label(10) + gap(4) + value(20) + gap(3) + change(10) = 47pt
+  //   + paddingVertical 10×2 = 20pt → ~67pt per card
+  // Grid: 67 + 8gap + 67 + 18marginBottom = 160pt
   metricsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
-    marginBottom: 16,
+    marginBottom: 12,
   },
   metricCard: {
     width: '48%',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    borderLeftWidth: 3,
+    borderRadius: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
   },
-  metricCardNeutral:  { backgroundColor: '#FFFFFF', borderColor: '#E2E8F0' },
-  metricCardPositive: { backgroundColor: '#F0FDF4', borderColor: '#BBF7D0' },
-  metricCardNegative: { backgroundColor: '#FEF2F2', borderColor: '#FECACA' },
-  metricLabel:     { fontSize: 7.5, color: '#64748B', marginBottom: 3 },
-  metricValue:     { fontFamily: 'Helvetica-Bold', fontSize: 14, color: '#1E293B', marginBottom: 2 },
-  metricChangePos: { fontSize: 7.5, fontFamily: 'Helvetica-Bold', color: '#22C55E' },
-  metricChangeNeg: { fontSize: 7.5, fontFamily: 'Helvetica-Bold', color: '#EF4444' },
-  metricChangeNeu: { fontSize: 7.5, color: '#94A3B8' },
+  metricCardNeutral:  { backgroundColor: '#fafaf9', borderColor: '#e7e5e4', borderLeftColor: '#d6d3d1' },
+  metricCardPositive: { backgroundColor: '#f0fdfa', borderColor: '#99f6e4', borderLeftColor: '#0D9488' },
+  metricCardNegative: { backgroundColor: '#FEF2F2', borderColor: '#FECACA', borderLeftColor: '#EF4444' },
+  metricLabel:     { fontSize: 10, color: '#78716c', marginBottom: 4 },
+  metricValue:     { fontFamily: 'Helvetica-Bold', fontSize: 20, color: '#1c1917', marginBottom: 3 },
+  metricChangePos: { fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#0D9488' },
+  metricChangeNeg: { fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#EF4444' },
+  metricChangeNeu: { fontSize: 10, color: '#a8a29e' },
 
   // ── Narrative card ───────────────────────────────────────────────────────
-  // Available budget: 757 - 40 - 15 - 126 - 15 = 561 pt
-  // Card outer padding top+bottom: 22 pt → content budget: 539 pt
-  // Typical 4-section narrative with 8pt/1.4lh text uses ~280–380 pt — well inside.
+  // Available budget: 757 - 57 - 16 - 160 - 16 = 508pt
+  // Card padding: 14×2 horizontal, 13 top + 13 bottom = 26pt vertical overhead
+  // Content budget: 482pt — comfortably fits a 4-section narrative at 11pt body
   narrativeCard: {
     borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: 5,
-    paddingHorizontal: 12,
-    paddingTop: 11,
-    paddingBottom: 11,
+    borderColor: '#e7e5e4',
+    borderRadius: 6,
+    paddingHorizontal: 14,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
-
-  // Each narrative section — first has no top rule; rest add a thin divider
   narrativeSec: {
     flexDirection: 'column',
-    marginBottom: 9,
+    marginBottom: 8,
   },
   narrativeSecNotFirst: {
     flexDirection: 'column',
-    marginBottom: 9,
+    marginBottom: 8,
     paddingTop: 8,
     borderTopWidth: 1,
-    borderTopColor: '#F1F5F9',
+    borderTopColor: '#f5f5f4',
   },
   narrativeHeading: {
     fontFamily: 'Helvetica-Bold',
-    fontSize: 8.5,
-    color: '#1E293B',
+    fontSize: 14,
+    color: '#EA580C',
     marginBottom: 3,
   },
-  // Each paragraph line is its own Text so lines never collapse onto one line
   narrativeLine: {
-    fontSize: 8,
-    color: '#334155',
+    fontSize: 10,
+    color: '#44403c',
     lineHeight: 1.4,
     marginBottom: 1,
   },
-  // Each bullet is its own View row — guarantees one bullet per line
   bulletRow: {
     flexDirection: 'row',
     marginBottom: 3,
   },
   bulletDot: {
-    fontSize: 8,
+    fontSize: 10,
     color: '#EA580C',
-    marginRight: 5,
+    marginRight: 6,
     lineHeight: 1.4,
   },
   bulletText: {
-    fontSize: 8,
-    color: '#334155',
+    fontSize: 10,
+    color: '#44403c',
     lineHeight: 1.4,
     flex: 1,
   },
 
   // ── Page 2 tables ─────────────────────────────────────────────────────────
-  // Per table block: title(16) + headerRow(30) + 5 × dataRow(57) + marginBottom(14) = 345 pt
-  // Two tables: 690 pt + header 40 pt = 730 pt  (within 757 pt)
+  // Per table block (5 rows):
+  //   title+margin: 14pt text + 8pt margin = 22pt
+  //   header row:   paddingV 13×2 + text 10pt ≈ 39pt
+  //   data rows:    5 × (paddingV 20×2 + text ~13pt) ≈ 5 × 53 = 265pt
+  //   card total:   39 + 265 = 304pt
+  //   + marginBottom 20pt → 346pt per table
+  // Two tables: 346×2 + 55pt header = 747pt  ✓  (within 757pt)
   tableTitle: {
     fontFamily: 'Helvetica-Bold',
-    fontSize: 10,
-    color: '#1E293B',
-    marginBottom: 6,
+    fontSize: 14,
+    color: '#1c1917',
+    marginBottom: 8,
   },
   tableCard: {
     borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: 5,
+    borderColor: '#e7e5e4',
+    borderRadius: 6,
     overflow: 'hidden',
-    marginBottom: 14,
+    marginBottom: 20,
   },
-  // Header row height: paddingV×2(22) + text(~8) = 30 pt
   tableHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F8FAFC',
-    paddingHorizontal: 12,
-    paddingVertical: 11,
+    backgroundColor: '#f5f5f4',
+    paddingHorizontal: 14,
+    paddingVertical: 13,
     borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
+    borderBottomColor: '#e7e5e4',
   },
   tableHeaderLabel: {
     fontFamily: 'Helvetica-Bold',
-    fontSize: 7,
-    color: '#94A3B8',
+    fontSize: 10,
+    color: '#78716c',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
     flex: 1,
   },
-  tableHeaderBarSpacer: { width: 110, marginHorizontal: 10 },
+  tableHeaderBarSpacer: { width: 100, marginHorizontal: 10 },
   tableHeaderValue: {
     fontFamily: 'Helvetica-Bold',
-    fontSize: 7,
-    color: '#94A3B8',
+    fontSize: 10,
+    color: '#78716c',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    width: 58,
+    width: 64,
     textAlign: 'right',
   },
-  // Data row height: paddingV×2(48) + text(~9) = 57 pt
   tableDataRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 24,
+    paddingHorizontal: 14,
+    paddingVertical: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
+    borderBottomColor: '#f5f5f4',
   },
-  tableDataRowOdd:  { backgroundColor: '#F8FAFC' },
+  tableDataRowOdd:  { backgroundColor: '#fafaf9' },
   tableDataRowLast: { borderBottomWidth: 0 },
-  tableDataLabel:   { fontSize: 9, color: '#334155', flex: 1 },
+  tableDataLabel:   { fontSize: 11, color: '#44403c', flex: 1 },
   barTrack: {
-    width: 110,
+    width: 100,
     height: 10,
-    backgroundColor: '#FFF7ED',
+    backgroundColor: '#fff1e6',
     borderRadius: 5,
     marginHorizontal: 10,
   },
@@ -225,26 +228,26 @@ const s = StyleSheet.create({
     borderRadius: 5,
   },
   tableDataValue: {
-    fontSize: 9,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
-    color: '#64748B',
-    width: 58,
+    color: '#78716c',
+    width: 64,
     textAlign: 'right',
   },
 
   // ── Footer (fixed → every page) ──────────────────────────────────────────
   footer: {
     position: 'absolute',
-    bottom: 16,
+    bottom: 18,
     left: PAD_H,
     right: PAD_H,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderTopWidth: 1,
-    borderTopColor: '#E2E8F0',
+    borderTopColor: '#e7e5e4',
     paddingTop: 7,
   },
-  footerText: { fontSize: 7, color: '#94A3B8' },
+  footerText: { fontSize: 8, color: '#a8a29e' },
 });
 
 // ---------------------------------------------------------------------------
@@ -262,7 +265,6 @@ function pctChange(current: number, previous: number): number {
   return Math.round(((current - previous) / previous) * 100);
 }
 
-// Strip **bold** markers for plain PDF text
 function stripBold(text: string): string {
   return text.replace(/\*\*/g, '');
 }
@@ -303,7 +305,7 @@ function MetricCard({
 }
 
 // ---------------------------------------------------------------------------
-// Narrative section — each bullet is its OWN View row, never inline
+// Narrative section
 // ---------------------------------------------------------------------------
 
 function NarrativeSection({
@@ -328,7 +330,6 @@ function NarrativeSection({
     if (t.startsWith('- ')) {
       bullets.push(t.slice(2));
     } else if (t.includes('•')) {
-      // Handle "• item" per line OR "• Item1 • Item2 • Item3" on one line
       const parts = t.split(/•\s*/).map((p) => p.trim()).filter(Boolean);
       bullets.push(...parts);
     } else {
@@ -341,15 +342,11 @@ function NarrativeSection({
       {heading !== null && (
         <Text style={s.narrativeHeading}>{heading}</Text>
       )}
-
-      {/* Each paragraph line as a separate <Text> so they stack vertically */}
       {paragraphLines.map((line, i) => (
         <Text key={`p${i}`} style={s.narrativeLine}>
           {stripBold(line)}
         </Text>
       ))}
-
-      {/* Each bullet as a separate row View — one bullet per line, guaranteed */}
       {bullets.map((bullet, i) => (
         <View key={`b${i}`} style={s.bulletRow}>
           <Text style={s.bulletDot}>•</Text>
@@ -361,7 +358,7 @@ function NarrativeSection({
 }
 
 // ---------------------------------------------------------------------------
-// Data table (page 2) — alternating rows + inline proportional bar
+// Data table (page 2) — capped at MAX_TABLE_ROWS to prevent page overflow
 // ---------------------------------------------------------------------------
 
 interface DataRow {
@@ -380,25 +377,23 @@ function DataTable({
   colValue: string;
   rows: DataRow[];
 }) {
-  const maxVal = Math.max(...rows.map((r) => r.value), 1);
-  const BAR_WIDTH = 110;
+  const capped = rows.slice(0, MAX_TABLE_ROWS);
+  const maxVal = Math.max(...capped.map((r) => r.value), 1);
+  const BAR_WIDTH = 100;
 
   return (
     <View>
       <Text style={s.tableTitle}>{title}</Text>
       <View style={s.tableCard}>
-        {/* Column headers */}
         <View style={s.tableHeaderRow}>
           <Text style={s.tableHeaderLabel}>{colLabel}</Text>
           <View style={s.tableHeaderBarSpacer} />
           <Text style={s.tableHeaderValue}>{colValue}</Text>
         </View>
 
-        {/* Data rows */}
-        {rows.map((row, i) => {
-          const isLast = i === rows.length - 1;
+        {capped.map((row, i) => {
+          const isLast = i === capped.length - 1;
           const isOdd  = i % 2 !== 0;
-          // Minimum 4 pt fill so even small values show a sliver
           const fillW  = Math.max(4, Math.round((row.value / maxVal) * BAR_WIDTH));
 
           return (
@@ -406,7 +401,7 @@ function DataTable({
               key={i}
               style={[
                 s.tableDataRow,
-                isOdd ? s.tableDataRowOdd : {},
+                isOdd  ? s.tableDataRowOdd  : {},
                 isLast ? s.tableDataRowLast : {},
               ]}
             >
@@ -424,7 +419,7 @@ function DataTable({
 }
 
 // ---------------------------------------------------------------------------
-// Shared header view (re-used on both pages)
+// Shared header (both pages)
 // ---------------------------------------------------------------------------
 
 function ReportHeader({
@@ -496,14 +491,15 @@ export default function ReportPDF({
     ? narrative.split(/\n(?=## )/).filter(Boolean)
     : [];
 
-  const pageRows: DataRow[] = current.topPages.map((p) => ({
+  // Slice to MAX_TABLE_ROWS to guarantee 2-page output
+  const pageRows: DataRow[] = current.topPages.slice(0, MAX_TABLE_ROWS).map((p) => ({
     label: p.pagePath,
     value: p.pageviews,
   }));
 
-  const srcRows: DataRow[] = current.trafficSources.map((s) => ({
-    label: s.sessionSourceMedium,
-    value: s.sessions,
+  const srcRows: DataRow[] = current.trafficSources.slice(0, MAX_TABLE_ROWS).map((src) => ({
+    label: src.sessionSourceMedium,
+    value: src.sessions,
   }));
 
   return (
@@ -516,7 +512,6 @@ export default function ReportPDF({
           periodEnd={periodEnd}
         />
 
-        {/* Metric cards */}
         <Text style={s.sectionLabel}>Performance Overview</Text>
         <View style={s.metricsGrid}>
           <MetricCard
@@ -546,7 +541,6 @@ export default function ReportPDF({
           />
         </View>
 
-        {/* AI Narrative */}
         {narrativeSections.length > 0 && (
           <>
             <Text style={s.sectionLabel}>AI Analysis</Text>
