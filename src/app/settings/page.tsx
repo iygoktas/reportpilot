@@ -59,7 +59,7 @@ export default async function SettingsPage() {
 
 function SettingsSkeleton() {
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="space-y-6">
       {[1, 2, 3].map((i) => (
         <div key={i} className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
           <Skeleton className="h-5 w-24 mb-4" />

@@ -76,7 +76,7 @@ export default function SettingsClient({
   const clientLimit = plan === 'pro' ? 10 : 5;
 
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="space-y-6">
 
       {/* Profile */}
       <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">

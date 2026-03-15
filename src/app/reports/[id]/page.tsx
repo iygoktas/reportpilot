@@ -137,7 +137,7 @@ export default async function ReportViewPage({
   const previousLabel = prevStart ? 'Previous period' : 'Previous period';
 
   return (
-    <div className="max-w-3xl">
+    <div>
       {/* Back link */}
       <Link
         href={`/clients/${client.id}`}

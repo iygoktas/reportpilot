@@ -56,7 +56,7 @@ export default async function ClientDetailPage({
   const reportList: Report[] = reports ?? [];
 
   return (
-    <div className="max-w-2xl">
+    <div>
       {/* Back link */}
       <Link
         href="/clients"
