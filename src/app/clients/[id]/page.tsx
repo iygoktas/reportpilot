@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { ExternalLink, FileText } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
+import type { Report } from '@/types/database';
 import DeleteClientButton from './DeleteClientButton';
 import ConnectPropertyButton from './ConnectPropertyButton';
 
@@ -27,7 +28,7 @@ export default async function ClientDetailPage({
 
   if (!user) redirect('/login');
 
-  const [{ data: client, error }, { data: integration }] = await Promise.all([
+  const [{ data: client, error }, { data: integration }, { data: reports }] = await Promise.all([
     supabase
       .from('clients')
       .select('*')
@@ -40,12 +41,19 @@ export default async function ClientDetailPage({
       .eq('user_id', user.id)
       .eq('provider', 'google')
       .maybeSingle(),
+    supabase
+      .from('reports')
+      .select('*')
+      .eq('client_id', id)
+      .order('created_at', { ascending: false }),
   ]);
 
   if (error) notFound();
   if (!client) notFound();
 
   const isGoogleConnected = !!integration;
+  const canGenerateReport = !!client.ga4_property_id;
+  const reportList: Report[] = reports ?? [];
 
   return (
     <div className="max-w-2xl">
@@ -110,23 +118,56 @@ export default async function ClientDetailPage({
           <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
             Reports
           </h2>
-          <button
-            disabled
-            title="Connect Google Analytics first"
-            className="bg-blue-500 text-white rounded-lg px-5 py-2.5 text-base font-medium opacity-50 cursor-not-allowed"
-          >
-            Generate Report
-          </button>
+          {canGenerateReport ? (
+            <Link
+              href={`/reports/generate?client_id=${client.id}`}
+              className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
+            >
+              Generate Report
+            </Link>
+          ) : (
+            <button
+              disabled
+              title="Connect a GA4 property first"
+              className="bg-blue-500 text-white rounded-lg px-5 py-2.5 text-base font-medium opacity-50 cursor-not-allowed"
+            >
+              Generate Report
+            </button>
+          )}
         </div>
 
-        {/* Empty state */}
-        <div className="flex flex-col items-center justify-center py-12 text-center">
-          <FileText className="w-14 h-14 text-slate-300 mb-4" />
-          <p className="text-base font-medium text-slate-700">No reports yet</p>
-          <p className="text-sm text-slate-500 mt-1">
-            Connect Google Analytics to generate your first report.
-          </p>
-        </div>
+        {reportList.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <FileText className="w-14 h-14 text-slate-300 mb-4" />
+            <p className="text-base font-medium text-slate-700">No reports yet</p>
+            <p className="text-sm text-slate-500 mt-1">
+              {canGenerateReport
+                ? 'Generate your first report to get started.'
+                : 'Connect a GA4 property to generate reports.'}
+            </p>
+          </div>
+        ) : (
+          <ul className="divide-y divide-slate-100">
+            {reportList.map((report) => (
+              <li key={report.id} className="py-3 flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-base font-medium text-slate-800">
+                    {formatDate(report.period_start)} – {formatDate(report.period_end)}
+                  </p>
+                  <p className="text-sm text-slate-400 mt-0.5">
+                    {report.status === 'final' ? 'Final' : 'Draft'} · Created {formatDate(report.created_at)}
+                  </p>
+                </div>
+                <Link
+                  href={`/reports/${report.id}`}
+                  className="text-base text-blue-500 hover:text-blue-600 transition-colors shrink-0"
+                >
+                  View →
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {/* Danger zone */}
