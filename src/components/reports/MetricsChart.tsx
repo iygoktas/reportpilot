@@ -39,21 +39,21 @@ export default function MetricsChart({ current, previous, currentLabel, previous
   ];
 
   return (
-    <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6 mb-6">
-      <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-5">
+    <div className="bg-white border border-stone-200 rounded-lg shadow-sm p-6 mb-6">
+      <h2 className="text-sm font-semibold text-stone-500 uppercase tracking-wider mb-5">
         Period Comparison
       </h2>
       <ResponsiveContainer width="100%" height={220}>
         <LineChart data={data} margin={{ top: 4, right: 16, left: 0, bottom: 4 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#F5F5F4" />
           <XAxis
             dataKey="name"
-            tick={{ fontSize: 12, fill: '#94A3B8' }}
+            tick={{ fontSize: 12, fill: '#A8A29E' }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
-            tick={{ fontSize: 11, fill: '#94A3B8' }}
+            tick={{ fontSize: 11, fill: '#A8A29E' }}
             axisLine={false}
             tickLine={false}
             width={48}
@@ -64,34 +64,34 @@ export default function MetricsChart({ current, previous, currentLabel, previous
           <Tooltip
             contentStyle={{
               background: '#fff',
-              border: '1px solid #E2E8F0',
+              border: '1px solid #E7E5E4',
               borderRadius: '8px',
               fontSize: 12,
-              color: '#1E293B',
+              color: '#1C1917',
             }}
             formatter={(value) => (typeof value === 'number' ? value.toLocaleString() : String(value))}
           />
           <Legend
             wrapperStyle={{ fontSize: 12, paddingTop: 12 }}
             formatter={(value) => (
-              <span style={{ color: '#64748B' }}>{value}</span>
+              <span style={{ color: '#78716C' }}>{value}</span>
             )}
           />
           <Line
             type="monotone"
             dataKey={currentLabel}
-            stroke="#3B82F6"
+            stroke="#F97316"
             strokeWidth={2}
-            dot={{ r: 4, fill: '#3B82F6', strokeWidth: 0 }}
+            dot={{ r: 4, fill: '#F97316', strokeWidth: 0 }}
             activeDot={{ r: 5 }}
           />
           {previous && (
             <Line
               type="monotone"
               dataKey={previousLabel}
-              stroke="#CBD5E1"
+              stroke="#D6D3D1"
               strokeWidth={2}
-              dot={{ r: 4, fill: '#CBD5E1', strokeWidth: 0 }}
+              dot={{ r: 4, fill: '#D6D3D1', strokeWidth: 0 }}
               activeDot={{ r: 5 }}
               strokeDasharray="4 3"
             />

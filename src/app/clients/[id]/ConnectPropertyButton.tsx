@@ -101,8 +101,8 @@ export default function ConnectPropertyButton({
   // Not connected to Google Analytics at all
   if (!isGoogleConnected) {
     return (
-      <span className="text-base text-slate-400 italic">
-        <Link href="/settings" className="text-blue-500 hover:text-blue-600 not-italic underline underline-offset-2">
+      <span className="text-base text-stone-400 italic">
+        <Link href="/settings" className="text-orange-600 hover:text-orange-700 not-italic underline underline-offset-2">
           Connect Google Analytics
         </Link>{' '}
         to add a property
@@ -116,16 +116,16 @@ export default function ConnectPropertyButton({
       {currentPropertyId ? (
         <button
           onClick={openDialog}
-          className="inline-flex items-center gap-1.5 text-base text-slate-800 hover:text-blue-600 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-base text-stone-800 hover:text-orange-600 transition-colors group"
         >
-          <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+          <CheckCircle className="w-4 h-4 text-teal-600 shrink-0" />
           <span className="font-mono text-sm">{currentPropertyId}</span>
-          <Pencil className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-500 transition-colors" />
+          <Pencil className="w-3.5 h-3.5 text-stone-400 group-hover:text-orange-500 transition-colors" />
         </button>
       ) : (
         <button
           onClick={openDialog}
-          className="text-base text-blue-500 hover:text-blue-600 transition-colors"
+          className="text-base text-orange-600 hover:text-orange-700 transition-colors"
         >
           Connect Property
         </button>
@@ -142,7 +142,7 @@ export default function ConnectPropertyButton({
 
           <div className="py-2">
             {fetchStatus === 'loading' && (
-              <div className="flex items-center gap-2 text-sm text-slate-500 py-4">
+              <div className="flex items-center gap-2 text-sm text-stone-500 py-4">
                 <Loader2 className="w-4 h-4 animate-spin" />
                 Loading your GA4 properties…
               </div>
@@ -156,7 +156,7 @@ export default function ConnectPropertyButton({
             )}
 
             {fetchStatus === 'done' && properties.length === 0 && (
-              <div className="flex items-center gap-2 text-sm text-slate-500 py-2">
+              <div className="flex items-center gap-2 text-sm text-stone-500 py-2">
                 <AlertCircle className="w-4 h-4 shrink-0 text-amber-500" />
                 No GA4 properties found in your Google account.
               </div>
@@ -164,13 +164,13 @@ export default function ConnectPropertyButton({
 
             {fetchStatus === 'done' && properties.length > 0 && (
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-slate-700">
+                <label className="block text-sm font-medium text-stone-700">
                   Select a property
                 </label>
                 <select
                   value={selectedId}
                   onChange={(e) => setSelectedId(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full bg-white border border-stone-200 rounded-lg px-3 py-2.5 text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                 >
                   <option value="">— Choose a property —</option>
                   {properties.map((p) => (
@@ -197,14 +197,14 @@ export default function ConnectPropertyButton({
               <button
                 onClick={() => setOpen(false)}
                 disabled={isSaving}
-                className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60"
+                className="bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
                 disabled={isSaving || !selectedId || fetchStatus !== 'done'}
-                className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                className="bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {isSaving ? (
                   <span className="flex items-center gap-1.5">

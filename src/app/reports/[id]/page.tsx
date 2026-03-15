@@ -62,29 +62,29 @@ function MetricCard({ label, value, change, invertColors = false }: MetricCardPr
   const isNegative = invertColors ? change > 0 : change < 0;
 
   const cardClass = isPositive
-    ? 'bg-emerald-50/50 border-emerald-200 border-l-[4px] border-l-emerald-500'
+    ? 'bg-teal-50 border-stone-200 border-l-[4px] border-l-teal-600'
     : isNegative
     ? 'bg-red-50/50 border-red-200 border-l-[4px] border-l-red-500'
-    : 'bg-white border-slate-200 border-l-[4px] border-l-slate-300';
+    : 'bg-stone-50 border-stone-200 border-l-[4px] border-l-stone-300';
 
   const changeClass = isPositive
-    ? 'text-emerald-600'
+    ? 'text-teal-600'
     : isNegative
     ? 'text-red-500'
-    : 'text-slate-500';
+    : 'text-stone-500';
 
   const arrow = change > 0 ? '↑' : change < 0 ? '↓' : '→';
 
   return (
     <div className={`border rounded-xl p-4 ${cardClass}`}>
-      <p className="text-base text-slate-500 mb-1">{label}</p>
-      <p className="text-4xl font-semibold text-slate-800 tracking-tight">{value}</p>
+      <p className="text-base text-stone-500 mb-1">{label}</p>
+      <p className="text-4xl font-semibold text-stone-800 tracking-tight">{value}</p>
       {change !== 0 ? (
         <p className={`text-sm font-medium mt-1 ${changeClass}`}>
           {arrow} {Math.abs(change)}%
         </p>
       ) : (
-        <p className="text-sm font-medium mt-1 text-slate-400">→ no change</p>
+        <p className="text-sm font-medium mt-1 text-stone-400">→ no change</p>
       )}
     </div>
   );
@@ -141,7 +141,7 @@ export default async function ReportViewPage({
       {/* Back link */}
       <Link
         href={`/clients/${client.id}`}
-        className="text-base text-slate-500 hover:text-slate-700 transition-colors"
+        className="text-base text-stone-500 hover:text-stone-700 transition-colors"
       >
         ← Back to {client.name}
       </Link>
@@ -149,18 +149,18 @@ export default async function ReportViewPage({
       {/* Report header */}
       <div className="mt-4 mb-8 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-800 tracking-tight md:text-3xl">
+          <h1 className="text-2xl font-semibold text-stone-800 tracking-tight md:text-3xl">
             Monthly Report: {client.name}
           </h1>
-          <p className="text-base text-slate-500 mt-1">
+          <p className="text-base text-stone-500 mt-1">
             {formatDate(report.period_start)} – {formatDate(report.period_end)}
           </p>
         </div>
         <span
           className={`self-start text-xs font-medium px-2.5 py-1 rounded-full ${
             report.status === 'final'
-              ? 'bg-green-100 text-green-700'
-              : 'bg-slate-100 text-slate-500'
+              ? 'bg-teal-100 text-teal-700'
+              : 'bg-stone-100 text-stone-500'
           }`}
         >
           {report.status === 'final' ? 'Final' : 'Draft'}
@@ -210,15 +210,15 @@ export default async function ReportViewPage({
 
       {/* Top pages + traffic sources */}
       <div className="grid grid-cols-1 gap-4 mb-6 sm:grid-cols-2">
-        <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">
+        <div className="bg-white border border-stone-200 rounded-xl shadow-sm p-6">
+          <h2 className="text-sm font-semibold text-stone-500 uppercase tracking-wider mb-4">
             Top Pages
           </h2>
           <ol className="space-y-2">
             {current.topPages.map((page, i) => (
               <li key={i} className="flex items-center justify-between gap-2 text-sm">
-                <span className="text-slate-700 truncate">{page.pagePath}</span>
-                <span className="text-slate-400 shrink-0 tabular-nums">
+                <span className="text-stone-700 truncate">{page.pagePath}</span>
+                <span className="text-stone-400 shrink-0 tabular-nums">
                   {page.pageviews.toLocaleString()}
                 </span>
               </li>
@@ -226,15 +226,15 @@ export default async function ReportViewPage({
           </ol>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
-          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">
+        <div className="bg-white border border-stone-200 rounded-xl shadow-sm p-6">
+          <h2 className="text-sm font-semibold text-stone-500 uppercase tracking-wider mb-4">
             Traffic Sources
           </h2>
           <ol className="space-y-2">
             {current.trafficSources.map((source, i) => (
               <li key={i} className="flex items-center justify-between gap-2 text-sm">
-                <span className="text-slate-700 truncate">{source.sessionSourceMedium}</span>
-                <span className="text-slate-400 shrink-0 tabular-nums">
+                <span className="text-stone-700 truncate">{source.sessionSourceMedium}</span>
+                <span className="text-stone-400 shrink-0 tabular-nums">
                   {source.sessions.toLocaleString()}
                 </span>
               </li>
@@ -248,7 +248,7 @@ export default async function ReportViewPage({
         <DownloadPDFButton reportId={report.id} />
         <Link
           href={`/clients/${client.id}`}
-          className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
+          className="bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
         >
           ← Back to Client
         </Link>

@@ -99,3 +99,7 @@
     font-weight: 600;
   }
 }
+
+.font-heading {
+  font-family: var(--font-heading), sans-serif;
+}

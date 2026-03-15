@@ -52,74 +52,74 @@ export default async function ReportsPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-semibold text-slate-800 tracking-tight">Reports</h1>
-          <p className="text-lg text-slate-500 mt-1">All generated reports across your clients.</p>
+          <h1 className="text-3xl font-semibold text-stone-800 tracking-tight">Reports</h1>
+          <p className="text-lg text-stone-500 mt-1">All generated reports across your clients.</p>
         </div>
       </div>
 
       {isEmpty ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
-          <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center mb-5">
-            <FileText className="w-10 h-10 text-blue-400" />
+          <div className="w-20 h-20 rounded-full bg-orange-50 flex items-center justify-center mb-5">
+            <FileText className="w-10 h-10 text-orange-400" />
           </div>
-          <h2 className="text-2xl font-semibold text-slate-700 mb-1 tracking-tight">No reports yet</h2>
-          <p className="text-lg text-slate-500 mb-6">
+          <h2 className="text-2xl font-semibold text-stone-700 mb-1 tracking-tight">No reports yet</h2>
+          <p className="text-lg text-stone-500 mb-6">
             Generate your first report from a client page.
           </p>
           <Link
             href="/clients"
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-5 py-2.5 text-sm font-medium transition-colors"
+            className="bg-orange-600 hover:bg-orange-700 text-white rounded-lg px-5 py-2.5 text-sm font-medium transition-colors"
           >
             Go to Clients
           </Link>
         </div>
       ) : (
-        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-stone-200 rounded-xl shadow-sm overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-slate-200 bg-slate-50">
-                <th className="text-left px-5 py-3 text-sm font-medium text-slate-400 uppercase tracking-wider">
+              <tr className="border-b border-stone-200 bg-stone-50">
+                <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
                   Client
                 </th>
-                <th className="text-left px-5 py-3 text-sm font-medium text-slate-400 uppercase tracking-wider">
+                <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
                   Period
                 </th>
-                <th className="text-left px-5 py-3 text-sm font-medium text-slate-400 uppercase tracking-wider">
+                <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="text-left px-5 py-3 text-sm font-medium text-slate-400 uppercase tracking-wider">
+                <th className="text-left px-5 py-3 text-sm font-medium text-stone-400 uppercase tracking-wider">
                   Created
                 </th>
                 <th className="px-5 py-3" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-stone-100">
               {reports!.map((report) => (
-                <tr key={report.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="px-5 py-4 font-medium text-slate-800">
+                <tr key={report.id} className="hover:bg-stone-50 transition-colors">
+                  <td className="px-5 py-4 font-medium text-stone-800">
                     {clientMap[report.client_id] ?? '—'}
                   </td>
-                  <td className="px-5 py-4 text-slate-600">
+                  <td className="px-5 py-4 text-stone-600">
                     {formatPeriod(report.period_start, report.period_end)}
                   </td>
                   <td className="px-5 py-4">
                     <span
                       className={`inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full ${
                         report.status === 'final'
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-slate-100 text-slate-500'
+                          ? 'bg-teal-100 text-teal-700'
+                          : 'bg-stone-100 text-stone-500'
                       }`}
                     >
                       {report.status === 'final' ? 'Final' : 'Draft'}
                     </span>
                   </td>
-                  <td className="px-5 py-4 text-slate-500">
+                  <td className="px-5 py-4 text-stone-500">
                     {formatDate(report.created_at)}
                   </td>
                   <td className="px-5 py-4 text-right">
                     <Link
                       href={`/reports/${report.id}`}
-                      className="text-blue-500 hover:text-blue-700 font-medium transition-colors"
+                      className="text-orange-600 hover:text-orange-700 font-medium transition-colors"
                     >
                       View →
                     </Link>

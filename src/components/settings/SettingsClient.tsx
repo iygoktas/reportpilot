@@ -113,8 +113,8 @@ export default function SettingsClient({
     <div className="space-y-6">
 
       {/* Profile */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
-        <h2 className="text-xl font-semibold text-slate-800 mb-4 tracking-tight">Profile</h2>
+      <div className="bg-white border border-stone-200 rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-stone-800 mb-4 tracking-tight">Profile</h2>
         <div className="flex items-center gap-4 mb-6">
           {avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -124,41 +124,41 @@ export default function SettingsClient({
               className="w-14 h-14 rounded-full object-cover"
             />
           ) : (
-            <div className="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center text-white text-lg font-semibold">
+            <div className="w-14 h-14 rounded-full bg-orange-600 flex items-center justify-center text-white text-lg font-semibold">
               {initials}
             </div>
           )}
           <div>
-            <p className="text-base font-medium text-slate-800">{fullName ?? '—'}</p>
-            <p className="text-sm text-slate-500">{email}</p>
+            <p className="text-base font-medium text-stone-800">{fullName ?? '—'}</p>
+            <p className="text-sm text-stone-500">{email}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Name</p>
-            <p className="text-sm text-slate-800 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+            <p className="text-xs font-medium text-stone-500 uppercase tracking-wide mb-1">Name</p>
+            <p className="text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-lg px-3 py-2">
               {fullName ?? '—'}
             </p>
           </div>
           <div>
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Email</p>
-            <p className="text-sm text-slate-800 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+            <p className="text-xs font-medium text-stone-500 uppercase tracking-wide mb-1">Email</p>
+            <p className="text-sm text-stone-800 bg-stone-50 border border-stone-200 rounded-lg px-3 py-2">
               {email}
             </p>
           </div>
         </div>
-        <p className="text-xs text-slate-400 mt-3">
+        <p className="text-xs text-stone-400 mt-3">
           Profile information is managed by your Google account.
         </p>
       </div>
 
       {/* Integrations */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
-        <h2 className="text-xl font-semibold text-slate-800 mb-4 tracking-tight">Integrations</h2>
+      <div className="bg-white border border-stone-200 rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-stone-800 mb-4 tracking-tight">Integrations</h2>
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             {/* Google icon */}
-            <div className="w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center bg-white">
+            <div className="w-10 h-10 rounded-lg border border-stone-200 flex items-center justify-center bg-white">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -167,21 +167,21 @@ export default function SettingsClient({
               </svg>
             </div>
             <div>
-              <p className="text-sm font-medium text-slate-800">Google Analytics</p>
+              <p className="text-sm font-medium text-stone-800">Google Analytics</p>
               {isGoogleConnected ? (
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <CheckCircle className="w-3.5 h-3.5 text-green-500" />
-                  <span className="text-xs text-green-600 font-medium">Connected</span>
+                  <CheckCircle className="w-3.5 h-3.5 text-teal-600" />
+                  <span className="text-xs text-teal-600 font-medium">Connected</span>
                   {connectedAt && (
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-stone-400">
                       · since {new Date(connectedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                     </span>
                   )}
                 </div>
               ) : (
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <AlertCircle className="w-3.5 h-3.5 text-slate-400" />
-                  <span className="text-xs text-slate-500">Not connected</span>
+                  <AlertCircle className="w-3.5 h-3.5 text-stone-400" />
+                  <span className="text-xs text-stone-500">Not connected</span>
                 </div>
               )}
             </div>
@@ -204,7 +204,7 @@ export default function SettingsClient({
           ) : (
             <a
               href="/api/integrations/google/connect"
-              className="inline-flex items-center gap-1.5 text-sm font-medium bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded-lg transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm font-medium bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-lg transition-colors"
             >
               <Link className="w-4 h-4" />
               Connect
@@ -214,42 +214,42 @@ export default function SettingsClient({
       </div>
 
       {/* Billing */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
-        <h2 className="text-xl font-semibold text-slate-800 mb-4 tracking-tight">Billing</h2>
+      <div className="bg-white border border-stone-200 rounded-xl shadow-sm p-6">
+        <h2 className="text-xl font-semibold text-stone-800 mb-4 tracking-tight">Billing</h2>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="text-sm font-medium text-slate-800">
+            <p className="text-sm font-medium text-stone-800">
               {plan === 'pro' ? 'Pro Plan' : 'Free Plan'}
             </p>
-            <p className="text-sm text-slate-500 mt-0.5">
+            <p className="text-sm text-stone-500 mt-0.5">
               {plan === 'pro' ? '$19 / month' : 'Free forever'}
             </p>
           </div>
           <span
             className={`text-xs font-medium px-2.5 py-1 rounded-full ${
               plan === 'pro'
-                ? 'bg-blue-100 text-blue-700'
-                : 'bg-slate-100 text-slate-500'
+                ? 'bg-orange-100 text-orange-700'
+                : 'bg-stone-100 text-stone-500'
             }`}
           >
             {plan === 'pro' ? 'Pro' : 'Free'}
           </span>
         </div>
 
-        <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
+        <div className="bg-stone-50 border border-stone-200 rounded-lg p-4 mb-4">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-slate-500" />
-              <span className="text-sm font-medium text-slate-700">Client usage</span>
+              <Users className="w-4 h-4 text-stone-500" />
+              <span className="text-sm font-medium text-stone-700">Client usage</span>
             </div>
-            <span className="text-sm text-slate-500">
+            <span className="text-sm text-stone-500">
               {clientCount} / {clientLimit} clients
             </span>
           </div>
-          <div className="w-full bg-slate-200 rounded-full h-1.5">
+          <div className="w-full bg-stone-200 rounded-full h-1.5">
             <div
               className={`h-1.5 rounded-full transition-all ${
-                clientCount / clientLimit >= 0.8 ? 'bg-amber-500' : 'bg-blue-500'
+                clientCount / clientLimit >= 0.8 ? 'bg-amber-500' : 'bg-orange-400'
               }`}
               style={{ width: `${Math.min((clientCount / clientLimit) * 100, 100)}%` }}
             />
@@ -275,7 +275,7 @@ export default function SettingsClient({
             size="sm"
             onClick={handleUpgrade}
             disabled={billingLoading}
-            className="bg-blue-500 hover:bg-blue-600 text-white"
+            className="bg-orange-600 hover:bg-orange-700 text-white"
           >
             {billingLoading ? (
               <Loader2 className="w-4 h-4 animate-spin mr-1.5" />

@@ -13,7 +13,7 @@ function renderBold(text: string): React.ReactNode {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((part, i) =>
     part.startsWith('**') && part.endsWith('**') ? (
-      <strong key={i} className="font-semibold text-slate-800">
+      <strong key={i} className="font-semibold text-stone-800">
         {part.slice(2, -2)}
       </strong>
     ) : (
@@ -54,10 +54,10 @@ function NarrativeRenderer({ text }: { text: string }) {
         return (
           <div key={idx}>
             {heading && (
-              <h3 className="text-base font-semibold text-slate-800 mb-2">{heading}</h3>
+              <h3 className="text-base font-semibold text-stone-800 mb-2">{heading}</h3>
             )}
             {paragraphLines.length > 0 && (
-              <p className="text-base text-slate-700 leading-relaxed">
+              <p className="text-base text-stone-700 leading-relaxed">
                 {paragraphLines.map((line, i) => (
                   <span key={i}>{renderBold(line)}{i < paragraphLines.length - 1 ? ' ' : ''}</span>
                 ))}
@@ -66,8 +66,8 @@ function NarrativeRenderer({ text }: { text: string }) {
             {bullets.length > 0 && (
               <ul className="space-y-1.5 mt-2">
                 {bullets.map((bullet, i) => (
-                  <li key={i} className="flex items-start gap-2 text-base text-slate-700">
-                    <span className="text-blue-400 mt-1 shrink-0">•</span>
+                  <li key={i} className="flex items-start gap-2 text-base text-stone-700">
+                    <span className="text-orange-600 mt-1 shrink-0">•</span>
                     <span>{renderBold(bullet)}</span>
                   </li>
                 ))}
@@ -131,15 +131,15 @@ export default function ReportNarrativeSection({ reportId, narrative }: Props) {
   }
 
   return (
-    <div className="bg-white border border-slate-200 border-l-[4px] border-l-blue-500 rounded-xl shadow-sm p-6 mb-4">
+    <div className="bg-white border border-stone-200 border-l-[4px] border-l-orange-600 rounded-xl shadow-sm p-6 mb-4">
       <div className="flex items-center justify-between mb-5">
-        <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
+        <h2 className="text-sm font-semibold text-orange-600 uppercase tracking-wider">
           AI Analysis
         </h2>
         {!isEditing && (
           <button
             onClick={handleEdit}
-            className="text-sm text-slate-500 hover:text-slate-700 transition-colors"
+            className="text-sm text-stone-500 hover:text-stone-700 transition-colors"
           >
             Edit
           </button>
@@ -152,18 +152,18 @@ export default function ReportNarrativeSection({ reportId, narrative }: Props) {
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             rows={18}
-            className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y"
+            className="w-full bg-white border border-stone-200 rounded-lg px-3 py-2.5 text-sm text-stone-800 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors resize-y"
           />
-          <p className="text-xs text-slate-400">
-            Use <code className="bg-slate-100 px-1 rounded">## Heading</code> for sections and{' '}
-            <code className="bg-slate-100 px-1 rounded">- item</code> for bullets.{' '}
-            <code className="bg-slate-100 px-1 rounded">**bold**</code> for emphasis.
+          <p className="text-xs text-stone-400">
+            Use <code className="bg-stone-100 px-1 rounded">## Heading</code> for sections and{' '}
+            <code className="bg-stone-100 px-1 rounded">- item</code> for bullets.{' '}
+            <code className="bg-stone-100 px-1 rounded">**bold**</code> for emphasis.
           </p>
           <div className="flex items-center gap-2 pt-1">
             <button
               onClick={handleSave}
               disabled={isSaving || !draft.trim()}
-              className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isSaving ? (
                 <span className="flex items-center gap-1.5">
@@ -177,7 +177,7 @@ export default function ReportNarrativeSection({ reportId, narrative }: Props) {
             <button
               onClick={handleCancel}
               disabled={isSaving}
-              className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60"
+              className="bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60"
             >
               Cancel
             </button>

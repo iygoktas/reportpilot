@@ -32,11 +32,11 @@ export default async function ClientsPage() {
         <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mb-4">
           <AlertCircle className="w-8 h-8 text-red-400" />
         </div>
-        <p className="text-xl font-medium text-slate-700">Something went wrong</p>
-        <p className="text-base text-slate-500 mt-2">{error.message}</p>
+        <p className="text-xl font-medium text-stone-700">Something went wrong</p>
+        <p className="text-base text-stone-500 mt-2">{error.message}</p>
         <Link
           href="/clients"
-          className="mt-6 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
+          className="mt-6 bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
         >
           Try Again
         </Link>
@@ -62,8 +62,8 @@ export default async function ClientsPage() {
       {/* Page header */}
       <div className="flex flex-col gap-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-semibold text-slate-800 tracking-tight">Clients</h1>
-          <p className="text-lg text-slate-500 mt-1">
+          <h1 className="text-3xl font-semibold text-stone-800 tracking-tight">Clients</h1>
+          <p className="text-lg text-stone-500 mt-1">
             {clients.length === 0
               ? 'No clients yet'
               : `${clients.length} client${clients.length === 1 ? '' : 's'}`}
@@ -71,7 +71,7 @@ export default async function ClientsPage() {
         </div>
         <Link
           href="/clients/new"
-          className="flex items-center justify-center gap-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-5 py-2.5 text-base font-medium transition-colors sm:shrink-0"
+          className="flex items-center justify-center gap-2 bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-5 py-2.5 text-base font-medium transition-colors sm:shrink-0"
         >
           <Plus className="w-5 h-5" />
           Add Client
@@ -81,16 +81,16 @@ export default async function ClientsPage() {
       {/* Empty state */}
       {clients.length === 0 && (
         <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
-          <div className="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center mb-5">
-            <Users className="w-10 h-10 text-blue-400" />
+          <div className="w-20 h-20 rounded-full bg-orange-50 flex items-center justify-center mb-5">
+            <Users className="w-10 h-10 text-orange-400" />
           </div>
-          <h2 className="text-2xl font-semibold text-slate-700 mb-2 tracking-tight">No clients yet</h2>
-          <p className="text-lg text-slate-500 mb-6">
+          <h2 className="text-2xl font-semibold text-stone-700 mb-2 tracking-tight">No clients yet</h2>
+          <p className="text-lg text-stone-500 mb-6">
             Add your first client to start generating reports
           </p>
           <Link
             href="/clients/new"
-            className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
+            className="bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
           >
             Add Client
           </Link>
@@ -107,14 +107,14 @@ export default async function ClientsPage() {
             return (
               <div
                 key={client.id}
-                className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 hover:shadow-md hover:border-blue-200 transition-all duration-200 flex flex-col gap-4"
+                className="bg-white border border-stone-200 rounded-xl shadow-sm p-6 hover:shadow-md hover:border-orange-200 transition-all duration-200 flex flex-col gap-4"
               >
                 {/* Top row: name + GA4 badge */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <Link
                       href={`/clients/${client.id}`}
-                      className="text-xl font-semibold text-slate-800 hover:text-blue-600 transition-colors"
+                      className="text-xl font-semibold text-stone-800 hover:text-orange-600 transition-colors"
                     >
                       {client.name}
                     </Link>
@@ -123,41 +123,41 @@ export default async function ClientsPage() {
                         href={client.website_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-sm text-slate-400 hover:text-slate-600 mt-1 w-fit transition-colors"
+                        className="flex items-center gap-1 text-sm text-stone-400 hover:text-stone-600 mt-1 w-fit transition-colors"
                       >
                         <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                         {client.website_url.replace(/^https?:\/\//, '')}
                       </a>
                     ) : (
-                      <span className="text-sm text-slate-400 mt-1 block">No website</span>
+                      <span className="text-sm text-stone-400 mt-1 block">No website</span>
                     )}
                   </div>
                   {isConnected ? (
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-green-50 text-green-700 border border-green-200 px-2.5 py-1 rounded-full shrink-0">
-                      <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100 px-2.5 py-1 rounded-full shrink-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-teal-600" />
                       GA4 Connected
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-slate-50 text-slate-500 border border-slate-200 px-2.5 py-1 rounded-full shrink-0">
-                      <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
+                    <span className="inline-flex items-center gap-1.5 text-xs font-medium bg-stone-50 text-stone-500 border border-stone-200 px-2.5 py-1 rounded-full shrink-0">
+                      <span className="w-1.5 h-1.5 rounded-full bg-stone-300" />
                       Not connected
                     </span>
                   )}
                 </div>
 
                 {/* Stats row */}
-                <div className="flex items-center gap-4 pt-1 border-t border-slate-100">
-                  <div className="flex items-center gap-1.5 text-sm text-slate-400">
+                <div className="flex items-center gap-4 pt-1 border-t border-stone-100">
+                  <div className="flex items-center gap-1.5 text-sm text-stone-400">
                     <FileText className="w-3.5 h-3.5" />
                     {reportCount === 0
                       ? 'No reports'
                       : `${reportCount} report${reportCount === 1 ? '' : 's'}`}
                   </div>
-                  <div className="flex items-center gap-1.5 text-sm text-slate-400">
+                  <div className="flex items-center gap-1.5 text-sm text-stone-400">
                     <BarChart3 className="w-3.5 h-3.5" />
                     {isConnected ? 'GA4 ready' : 'Connect GA4'}
                   </div>
-                  <span className="ml-auto text-xs text-slate-300">
+                  <span className="ml-auto text-xs text-stone-300">
                     Added {formatDate(client.created_at)}
                   </span>
                 </div>

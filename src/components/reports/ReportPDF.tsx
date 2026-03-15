@@ -54,7 +54,7 @@ const s = StyleSheet.create({
   logoText: {
     fontFamily: 'Helvetica-Bold',
     fontSize: 14,
-    color: '#3B82F6',
+    color: '#EA580C',
   },
   headerRight: { alignItems: 'flex-end' },
   headerTitle: {
@@ -145,7 +145,7 @@ const s = StyleSheet.create({
   },
   bulletDot: {
     fontSize: 8,
-    color: '#3B82F6',
+    color: '#EA580C',
     marginRight: 5,
     lineHeight: 1.4,
   },
@@ -215,13 +215,13 @@ const s = StyleSheet.create({
   barTrack: {
     width: 110,
     height: 10,
-    backgroundColor: '#EFF6FF',
+    backgroundColor: '#FFF7ED',
     borderRadius: 5,
     marginHorizontal: 10,
   },
   barFill: {
     height: 10,
-    backgroundColor: '#3B82F6',
+    backgroundColor: '#EA580C',
     borderRadius: 5,
   },
   tableDataValue: {

@@ -34,14 +34,14 @@ export default async function GenerateReportPage({
       <div className="mb-8">
         <Link
           href={`/clients/${client.id}`}
-          className="text-base text-slate-500 hover:text-slate-700 transition-colors"
+          className="text-base text-stone-500 hover:text-stone-700 transition-colors"
         >
           ← Back to {client.name}
         </Link>
-        <h1 className="text-xl font-bold text-slate-800 mt-3 md:text-2xl">
+        <h1 className="text-xl font-bold text-stone-800 mt-3 md:text-2xl">
           Generate Monthly Report
         </h1>
-        <p className="text-base text-slate-500 mt-1">
+        <p className="text-base text-stone-500 mt-1">
           Select a reporting period and let AI write the narrative for you.
         </p>
       </div>

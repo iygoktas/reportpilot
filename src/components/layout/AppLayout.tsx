@@ -59,11 +59,11 @@ export default async function AppLayout({
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-stone-50">
       <Sidebar user={sidebarUser} />
       <Header />
 
-      <main className="md:ml-64 min-h-screen bg-slate-50">
+      <main className="md:ml-64 min-h-screen bg-stone-50">
         {/*
           Mobile:  px-4 sides, pt-20 clears the 56px fixed header + 24px gap,
                    pb-24 clears the 64px fixed bottom nav + 32px gap

@@ -55,7 +55,7 @@ export default function EditNarrativeButton({ reportId, currentNarrative }: Prop
     <>
       <button
         onClick={handleOpen}
-        className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
+        className="bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors"
       >
         Edit Narrative
       </button>
@@ -71,9 +71,9 @@ export default function EditNarrativeButton({ reportId, currentNarrative }: Prop
               value={narrative}
               onChange={(e) => setNarrative(e.target.value)}
               rows={16}
-              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-sm text-slate-800 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-y"
+              className="w-full bg-white border border-stone-200 rounded-lg px-3 py-2.5 text-sm text-stone-800 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors resize-y"
             />
-            <p className="text-xs text-slate-400 mt-1.5">
+            <p className="text-xs text-stone-400 mt-1.5">
               Use ## for section headings and - for bullet points.
             </p>
           </div>
@@ -82,14 +82,14 @@ export default function EditNarrativeButton({ reportId, currentNarrative }: Prop
             <button
               onClick={() => setOpen(false)}
               disabled={isSaving}
-              className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60"
+              className="bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
               disabled={isSaving || !narrative.trim()}
-              className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isSaving ? (
                 <span className="flex items-center gap-1.5">

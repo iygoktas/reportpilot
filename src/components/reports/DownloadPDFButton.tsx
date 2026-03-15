@@ -51,7 +51,7 @@ export default function DownloadPDFButton({ reportId }: Props) {
     <button
       onClick={handleDownload}
       disabled={isGenerating}
-      className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-5 py-2.5 text-base font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+      className="bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-5 py-2.5 text-base font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
     >
       {isGenerating ? (
         <span className="flex items-center gap-2">

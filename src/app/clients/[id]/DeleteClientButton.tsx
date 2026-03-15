@@ -62,7 +62,7 @@ export default function DeleteClientButton({
             <DialogTitle>Delete {clientName}?</DialogTitle>
             <DialogDescription>
               This will permanently delete{' '}
-              <span className="font-medium text-slate-700">{clientName}</span> and all
+              <span className="font-medium text-stone-700">{clientName}</span> and all
               associated reports. This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
@@ -71,7 +71,7 @@ export default function DeleteClientButton({
             <button
               onClick={() => setOpen(false)}
               disabled={isDeleting}
-              className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60"
+              className="bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60"
             >
               Cancel
             </button>

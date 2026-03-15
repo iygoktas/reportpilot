@@ -155,24 +155,24 @@ export default function NewClientPage() {
       <div className="mb-8">
         <Link
           href="/clients"
-          className="text-base text-slate-500 hover:text-slate-700 transition-colors"
+          className="text-base text-stone-500 hover:text-stone-700 transition-colors"
         >
           ← Back to Clients
         </Link>
-        <h1 className="text-3xl font-semibold text-slate-800 mt-3 tracking-tight">Add Client</h1>
-        <p className="text-lg text-slate-500 mt-1">
+        <h1 className="text-3xl font-semibold text-stone-800 mt-3 tracking-tight">Add Client</h1>
+        <p className="text-lg text-stone-500 mt-1">
           Add a client to start generating reports for them.
         </p>
       </div>
 
       {/* Form card */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-8">
+      <div className="bg-white border border-stone-200 rounded-xl shadow-sm p-8">
         <form onSubmit={handleSubmit} noValidate className="space-y-6">
           {/* Client Name */}
           <div>
             <label
               htmlFor="name"
-              className="block text-base font-medium text-slate-700 mb-2"
+              className="block text-base font-medium text-stone-700 mb-2"
             >
               Client Name <span className="text-red-500">*</span>
             </label>
@@ -182,7 +182,7 @@ export default function NewClientPage() {
               type="text"
               placeholder="Acme Corp"
               autoComplete="off"
-              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className="w-full bg-white border border-stone-200 rounded-lg px-4 py-2.5 text-base text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
             />
             {fieldErrors.name && (
               <p className="mt-2 text-sm text-red-500">{fieldErrors.name}</p>
@@ -193,10 +193,10 @@ export default function NewClientPage() {
           <div>
             <label
               htmlFor="website_url"
-              className="block text-base font-medium text-slate-700 mb-2"
+              className="block text-base font-medium text-stone-700 mb-2"
             >
               Website URL{' '}
-              <span className="text-slate-400 font-normal">(optional)</span>
+              <span className="text-stone-400 font-normal">(optional)</span>
             </label>
             <input
               id="website_url"
@@ -204,7 +204,7 @@ export default function NewClientPage() {
               type="url"
               placeholder="https://example.com"
               autoComplete="off"
-              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className="w-full bg-white border border-stone-200 rounded-lg px-4 py-2.5 text-base text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
             />
             {fieldErrors.website_url && (
               <p className="mt-2 text-sm text-red-500">{fieldErrors.website_url}</p>
@@ -215,14 +215,14 @@ export default function NewClientPage() {
           <div>
             <label
               htmlFor="ga4_property_id"
-              className="block text-base font-medium text-slate-700 mb-2"
+              className="block text-base font-medium text-stone-700 mb-2"
             >
               GA4 Property{' '}
-              <span className="text-slate-400 font-normal">(optional)</span>
+              <span className="text-stone-400 font-normal">(optional)</span>
             </label>
 
             {gaStatus === 'loading' && (
-              <div className="flex items-center gap-2 text-sm text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5">
+              <div className="flex items-center gap-2 text-sm text-stone-500 bg-stone-50 border border-stone-200 rounded-lg px-4 py-2.5">
                 <Loader2 className="w-4 h-4 animate-spin shrink-0" />
                 Loading properties…
               </div>
@@ -231,7 +231,7 @@ export default function NewClientPage() {
             {gaStatus === 'connected' && (
               <>
                 {properties.length === 0 ? (
-                  <div className="flex items-center gap-2 text-sm text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5">
+                  <div className="flex items-center gap-2 text-sm text-stone-500 bg-stone-50 border border-stone-200 rounded-lg px-4 py-2.5">
                     <AlertCircle className="w-4 h-4 shrink-0 text-amber-500" />
                     No GA4 properties found in your Google account.
                   </div>
@@ -240,7 +240,7 @@ export default function NewClientPage() {
                     id="ga4_property_id"
                     value={selectedPropertyId}
                     onChange={(e) => setSelectedPropertyId(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-base text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full bg-white border border-stone-200 rounded-lg px-4 py-2.5 text-base text-stone-800 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
                   >
                     <option value="">— Select a property —</option>
                     {properties.map((p) => (
@@ -251,7 +251,7 @@ export default function NewClientPage() {
                   </select>
                 )}
                 {selectedPropertyId && (
-                  <p className="mt-2 flex items-center gap-1.5 text-sm text-green-600">
+                  <p className="mt-2 flex items-center gap-1.5 text-sm text-teal-600">
                     <CheckCircle className="w-3.5 h-3.5" />
                     Property selected
                   </p>
@@ -260,11 +260,11 @@ export default function NewClientPage() {
             )}
 
             {(gaStatus === 'not_connected' || gaStatus === 'error') && (
-              <div className="flex items-center gap-2 text-sm text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5">
-                <AlertCircle className="w-4 h-4 shrink-0 text-slate-400" />
+              <div className="flex items-center gap-2 text-sm text-stone-500 bg-stone-50 border border-stone-200 rounded-lg px-4 py-2.5">
+                <AlertCircle className="w-4 h-4 shrink-0 text-stone-400" />
                 <span>
                   Connect Google Analytics in{' '}
-                  <Link href="/settings" className="text-blue-500 hover:text-blue-600 underline underline-offset-2">
+                  <Link href="/settings" className="text-orange-600 hover:text-orange-700 underline underline-offset-2">
                     Settings
                   </Link>{' '}
                   to select a property.
@@ -272,7 +272,7 @@ export default function NewClientPage() {
               </div>
             )}
 
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-stone-400">
               You can connect a property now or add it later from the client page.
             </p>
           </div>
@@ -281,18 +281,18 @@ export default function NewClientPage() {
           <div>
             <label
               htmlFor="start_date"
-              className="block text-base font-medium text-slate-700 mb-2"
+              className="block text-base font-medium text-stone-700 mb-2"
             >
               Reporting Start Date{' '}
-              <span className="text-slate-400 font-normal">(optional)</span>
+              <span className="text-stone-400 font-normal">(optional)</span>
             </label>
             <input
               id="start_date"
               name="start_date"
               type="date"
-              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className="w-full bg-white border border-stone-200 rounded-lg px-4 py-2.5 text-base text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
             />
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-stone-400">
               Used as the baseline period when generating AI reports.
             </p>
           </div>
@@ -302,13 +302,13 @@ export default function NewClientPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-6 py-3 text-base font-medium transition-all duration-200 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+              className="bg-orange-600 text-white hover:bg-orange-700 rounded-lg px-6 py-3 text-base font-medium transition-all duration-200 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Adding…' : 'Add Client'}
             </button>
             <Link
               href="/clients"
-              className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-6 py-3 text-base font-medium transition-all duration-200 text-center"
+              className="bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-6 py-3 text-base font-medium transition-all duration-200 text-center"
             >
               Cancel
             </Link>

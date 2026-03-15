@@ -57,16 +57,18 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-stone-50 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-10">
 
         {/* Logo */}
-        <p className="text-2xl font-semibold text-slate-800 tracking-tight">ReportPilot</p>
+        <p className="text-2xl font-semibold text-stone-800 tracking-tight">
+          <span className="text-orange-600">Report</span>Pilot
+        </p>
 
         {/* Heading */}
         <div className="mt-8">
-          <h1 className="text-3xl font-semibold text-slate-800 tracking-tight">Welcome back</h1>
-          <p className="mt-2 text-lg text-slate-500">
+          <h1 className="text-3xl font-semibold text-stone-800 tracking-tight">Welcome back</h1>
+          <p className="mt-2 text-lg text-stone-500">
             Sign in to continue to your dashboard
           </p>
         </div>
@@ -83,10 +85,10 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-6 py-3.5 text-base font-medium transition-all duration-200 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 bg-white text-stone-700 border border-stone-200 hover:bg-stone-50 rounded-lg px-6 py-3.5 text-base font-medium transition-all duration-200 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? (
-              <span className="w-5 h-5 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin shrink-0" />
+              <span className="w-5 h-5 border-2 border-stone-300 border-t-stone-600 rounded-full animate-spin shrink-0" />
             ) : (
               <GoogleIcon />
             )}
@@ -95,7 +97,7 @@ export default function LoginPage() {
         </div>
 
         {/* Legal */}
-        <p className="mt-8 text-sm text-slate-400 text-center">
+        <p className="mt-8 text-sm text-stone-400 text-center">
           By signing in, you agree to our Terms of Service
         </p>
 
