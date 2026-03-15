@@ -42,6 +42,10 @@ function NarrativeRenderer({ text }: { text: string }) {
           if (!trimmed) continue;
           if (trimmed.startsWith('- ')) {
             bullets.push(trimmed.slice(2));
+          } else if (trimmed.includes('•')) {
+            // Handle "• item" per line OR "• Item1 • Item2 • Item3" on one line
+            const parts = trimmed.split(/•\s*/).map((s) => s.trim()).filter(Boolean);
+            bullets.push(...parts);
           } else {
             paragraphLines.push(trimmed);
           }

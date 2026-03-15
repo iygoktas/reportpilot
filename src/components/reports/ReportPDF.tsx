@@ -327,6 +327,10 @@ function NarrativeSection({
     if (!t) continue;
     if (t.startsWith('- ')) {
       bullets.push(t.slice(2));
+    } else if (t.includes('•')) {
+      // Handle "• item" per line OR "• Item1 • Item2 • Item3" on one line
+      const parts = t.split(/•\s*/).map((p) => p.trim()).filter(Boolean);
+      bullets.push(...parts);
     } else {
       paragraphLines.push(t);
     }
