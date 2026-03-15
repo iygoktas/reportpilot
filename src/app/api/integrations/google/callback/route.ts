@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 type TokenResponse = {
   access_token: string;
@@ -51,6 +52,9 @@ export async function GET(request: NextRequest) {
   // Exchange authorization code for tokens
   let tokens: TokenResponse;
   try {
+    const redirectUri = `${process.env.NEXT_PUBLIC_APP_URL}/api/integrations/google/callback`;
+    console.log('[GA OAuth] redirect_uri sent to token exchange:', redirectUri);
+
     const res = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -58,13 +62,14 @@ export async function GET(request: NextRequest) {
         code,
         client_id: process.env.GOOGLE_CLIENT_ID!,
         client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-        redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/integrations/google/callback`,
+        redirect_uri: redirectUri,
         grant_type: 'authorization_code',
       }),
     });
 
     if (!res.ok) {
       const body = await res.text();
+      console.error('[GA OAuth] Token exchange failed — status:', res.status, '— body:', body);
       throw new Error(`Token exchange failed (${res.status}): ${body}`);
     }
 
@@ -81,24 +86,25 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(`${origin}/settings?ga_error=token_exchange`);
   }
 
-  // Persist tokens — upsert so re-connecting overwrites the old row
+  // Persist tokens — use admin client (service role) to bypass RLS since we've
+  // already verified the user's identity above via auth.getUser().
   const expiresAt = new Date(Date.now() + tokens.expires_in * 1000).toISOString();
+  const payload = {
+    user_id: userId,
+    provider: 'google',
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token,
+    expires_at: expiresAt,
+  };
+  console.log('[GA OAuth] Saving integration for user:', userId, '— payload keys:', Object.keys(payload));
 
-  const { error: upsertError } = await supabase
+  const adminSupabase = createAdminClient();
+  const { error: upsertError } = await adminSupabase
     .from('integrations')
-    .upsert(
-      {
-        user_id: userId,
-        provider: 'google',
-        access_token: tokens.access_token,
-        refresh_token: tokens.refresh_token,
-        expires_at: expiresAt,
-      },
-      { onConflict: 'user_id,provider' }
-    );
+    .upsert(payload, { onConflict: 'user_id,provider' });
 
   if (upsertError) {
-    console.error('Failed to save integration:', upsertError.message);
+    console.error('[GA OAuth] Supabase upsert error — code:', upsertError.code, '— message:', upsertError.message, '— details:', upsertError.details, '— hint:', upsertError.hint);
     return NextResponse.redirect(`${origin}/settings?ga_error=save_failed`);
   }
 
