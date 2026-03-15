@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-// Inline Google "G" logo SVG — no extra package needed
 function GoogleIcon() {
   return (
     <svg
@@ -49,10 +48,7 @@ export default function LoginPage() {
         },
       });
 
-      if (oauthError) {
-        throw oauthError;
-      }
-      // On success the browser is redirected by Supabase — no further action needed.
+      if (oauthError) throw oauthError;
     } catch (err) {
       setError('Could not sign in with Google. Please try again.');
       setIsLoading(false);
@@ -62,32 +58,32 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
-      <div className="w-full max-w-sm bg-white rounded-xl shadow-lg p-8">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-10">
 
         {/* Logo */}
-        <p className="text-xl font-bold text-slate-800">ReportPilot</p>
+        <p className="text-2xl font-bold text-slate-800">ReportPilot</p>
 
         {/* Heading */}
-        <div className="mt-6">
-          <h1 className="text-2xl font-bold text-slate-800">Welcome back</h1>
-          <p className="mt-1 text-sm text-slate-500">
+        <div className="mt-8">
+          <h1 className="text-3xl font-bold text-slate-800">Welcome back</h1>
+          <p className="mt-2 text-base text-slate-500">
             Sign in to continue to your dashboard
           </p>
         </div>
 
         {/* Error message */}
         {error && (
-          <p className="mt-4 text-sm text-red-500 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          <p className="mt-5 text-base text-red-500 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
             {error}
           </p>
         )}
 
         {/* Google sign-in button */}
-        <div className="mt-6">
+        <div className="mt-8">
           <button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-3 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-4 py-2.5 font-medium text-sm transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-5 py-3.5 text-base font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <span className="w-5 h-5 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin shrink-0" />
@@ -99,7 +95,7 @@ export default function LoginPage() {
         </div>
 
         {/* Legal */}
-        <p className="mt-6 text-xs text-slate-400 text-center">
+        <p className="mt-8 text-sm text-slate-400 text-center">
           By signing in, you agree to our Terms of Service
         </p>
 

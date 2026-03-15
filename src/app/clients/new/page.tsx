@@ -72,9 +72,7 @@ export default function NewClientPage() {
         start_date: result.data.start_date || null,
       });
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
       toast.success(`${result.data.name} added successfully`);
       router.push('/clients');
@@ -88,27 +86,27 @@ export default function NewClientPage() {
   return (
     <div className="max-w-lg">
       {/* Page header */}
-      <div className="mb-6">
+      <div className="mb-8">
         <Link
           href="/clients"
-          className="text-sm text-slate-500 hover:text-slate-700 transition-colors"
+          className="text-base text-slate-500 hover:text-slate-700 transition-colors"
         >
           ← Back to Clients
         </Link>
-        <h1 className="text-2xl font-bold text-slate-800 mt-3">Add Client</h1>
-        <p className="text-sm text-slate-500 mt-1">
+        <h1 className="text-xl font-bold text-slate-800 mt-3 md:text-2xl">Add Client</h1>
+        <p className="text-base text-slate-500 mt-1">
           Add a client to start generating reports for them.
         </p>
       </div>
 
       {/* Form card */}
       <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
-        <form onSubmit={handleSubmit} noValidate className="space-y-5">
+        <form onSubmit={handleSubmit} noValidate className="space-y-6">
           {/* Client Name */}
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-slate-700 mb-1.5"
+              className="block text-base font-medium text-slate-700 mb-2"
             >
               Client Name <span className="text-red-500">*</span>
             </label>
@@ -118,10 +116,10 @@ export default function NewClientPage() {
               type="text"
               placeholder="Acme Corp"
               autoComplete="off"
-              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             />
             {fieldErrors.name && (
-              <p className="mt-1.5 text-xs text-red-500">{fieldErrors.name}</p>
+              <p className="mt-2 text-sm text-red-500">{fieldErrors.name}</p>
             )}
           </div>
 
@@ -129,7 +127,7 @@ export default function NewClientPage() {
           <div>
             <label
               htmlFor="website_url"
-              className="block text-sm font-medium text-slate-700 mb-1.5"
+              className="block text-base font-medium text-slate-700 mb-2"
             >
               Website URL{' '}
               <span className="text-slate-400 font-normal">(optional)</span>
@@ -140,10 +138,10 @@ export default function NewClientPage() {
               type="url"
               placeholder="https://example.com"
               autoComplete="off"
-              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             />
             {fieldErrors.website_url && (
-              <p className="mt-1.5 text-xs text-red-500">{fieldErrors.website_url}</p>
+              <p className="mt-2 text-sm text-red-500">{fieldErrors.website_url}</p>
             )}
           </div>
 
@@ -151,7 +149,7 @@ export default function NewClientPage() {
           <div>
             <label
               htmlFor="start_date"
-              className="block text-sm font-medium text-slate-700 mb-1.5"
+              className="block text-base font-medium text-slate-700 mb-2"
             >
               Reporting Start Date{' '}
               <span className="text-slate-400 font-normal">(optional)</span>
@@ -160,25 +158,25 @@ export default function NewClientPage() {
               id="start_date"
               name="start_date"
               type="date"
-              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-base text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             />
-            <p className="mt-1.5 text-xs text-slate-400">
+            <p className="mt-2 text-sm text-slate-400">
               Used as the baseline period when generating AI reports.
             </p>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3 pt-1">
+          <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="bg-blue-500 text-white hover:bg-blue-600 rounded-lg px-5 py-2.5 text-base font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Adding…' : 'Add Client'}
             </button>
             <Link
               href="/clients"
-              className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-4 py-2 text-sm font-medium transition-colors"
+              className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 rounded-lg px-5 py-2.5 text-base font-medium transition-colors text-center"
             >
               Cancel
             </Link>

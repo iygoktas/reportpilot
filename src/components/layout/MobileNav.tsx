@@ -23,15 +23,14 @@ export default function MobileNav() {
             <Link
               key={href}
               href={href}
-              className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full min-w-[44px]"
+              className="flex flex-col items-center justify-center gap-0.5 flex-1 h-full min-w-[44px] min-h-[44px]"
             >
               <Icon
-                className={`w-5 h-5 ${active ? 'text-blue-500' : 'text-slate-400'}`}
+                className={`w-6 h-6 ${active ? 'text-blue-500' : 'text-slate-400'}`}
               />
-              <span className={`text-[10px] ${active ? 'text-blue-500' : 'text-slate-400'}`}>
+              <span className={`text-xs ${active ? 'text-blue-500' : 'text-slate-400'}`}>
                 {label}
               </span>
-              {/* Active indicator dot */}
               {active && (
                 <span className="w-1 h-1 rounded-full bg-blue-500" />
               )}

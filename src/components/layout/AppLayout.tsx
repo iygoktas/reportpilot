@@ -24,15 +24,13 @@ export default async function AppLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Proxy should have caught unauthenticated requests, but guard here too
   if (!user) {
     redirect('/login');
   }
 
-  // Fetch profile for plan — gracefully handle missing row
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, plan')
+    .select('*')
     .eq('id', user.id)
     .single();
 
@@ -66,7 +64,12 @@ export default async function AppLayout({
       <Header />
 
       <main className="md:ml-64 min-h-screen bg-slate-50">
-        <div className="pt-14 md:pt-0 pb-16 md:pb-0 p-6">
+        {/*
+          Mobile:  px-4 sides, pt-20 clears the 56px fixed header + 24px gap,
+                   pb-24 clears the 64px fixed bottom nav + 32px gap
+          Desktop: px-6 sides, pt-8 breathing room at top, pb-8 at bottom
+        */}
+        <div className="px-4 md:px-6 pt-20 md:pt-8 pb-24 md:pb-8">
           {children}
         </div>
       </main>

@@ -43,12 +43,12 @@ export default function Sidebar({ user }: SidebarProps) {
               href={href}
               className={
                 active
-                  ? 'flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-50 text-blue-600 font-medium'
-                  : 'flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors'
+                  ? 'flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-50 text-blue-600 font-medium'
+                  : 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition-colors'
               }
             >
               <Icon className="w-5 h-5 shrink-0" />
-              <span className="text-sm">{label}</span>
+              <span className="text-base">{label}</span>
             </Link>
           );
         })}
@@ -63,25 +63,28 @@ export default function Sidebar({ user }: SidebarProps) {
             <img
               src={user.avatarUrl}
               alt={user.name}
-              className="w-8 h-8 rounded-full shrink-0 object-cover"
+              className="w-9 h-9 rounded-full shrink-0 object-cover"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center shrink-0">
-              <span className="text-xs font-medium text-white">{user.initials}</span>
+            <div className="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center shrink-0">
+              <span className="text-sm font-medium text-white">{user.initials}</span>
             </div>
           )}
 
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-slate-700 truncate">{user.name}</p>
-            <p className="text-xs text-slate-400 truncate">{user.email}</p>
+            {/* Show full name; truncate only if very long */}
+            <p className="text-base font-medium text-slate-700 truncate leading-tight">
+              {user.name}
+            </p>
+            <p className="text-sm text-slate-400 truncate leading-tight">{user.email}</p>
           </div>
 
           {user.plan === 'pro' ? (
-            <span className="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full shrink-0">
+            <span className="bg-blue-100 text-blue-700 text-sm font-medium px-2 py-0.5 rounded-full shrink-0">
               Pro
             </span>
           ) : (
-            <span className="bg-slate-100 text-slate-500 text-xs font-medium px-2 py-0.5 rounded-full shrink-0">
+            <span className="bg-slate-100 text-slate-500 text-sm font-medium px-2 py-0.5 rounded-full shrink-0">
               Free
             </span>
           )}
